@@ -21,9 +21,9 @@ export default class View {
    * set up the basic structure.
    */
   constructor(){ 
-    screen.addChildToParentType( 
-              "div", "sim_wrapper", 
-              null, "adfafd", "body" );
+    this.simWrapper = screen.addChildToParentType( 
+                        "div", "sim_wrapper", 
+                        null, "", "body" );
 
     this.footer = screen.addChildToParentType(
                   "div", "footer", null, "", "body"

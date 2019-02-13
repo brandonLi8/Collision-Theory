@@ -32,7 +32,10 @@ export default class Controller {
   run(){
     this.renderBasics()
   }
-
+  /**
+   * @public 
+   * render the header, control panels, TODO
+   */
   renderBasics(){
     let home = view.addImageToFooter( "home" );
     home.setAttribute( "src", "./assets/home.png" );
@@ -47,6 +50,9 @@ export default class Controller {
 
 
     let title = view.addTextToFooter( "Collision Theory", "title" );
+    let author = view.addTextToFooter( "By Brandon Li", "author" );
+
   }
+  // TODO add buttons to the control panel, 
 }
 
