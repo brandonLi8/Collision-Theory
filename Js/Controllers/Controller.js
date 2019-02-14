@@ -30,29 +30,29 @@ export default class Controller {
    * render the basic view 
    */
   run(){
-    this.renderBasics()
+    // this.renderBasics()
   }
   /**
    * @public 
    * render the header, control panels, TODO
    */
-  renderBasics(){
-    let home = view.addImageToFooter( "home" );
-    home.setAttribute( "src", "./assets/home.png" );
-    // handle user input
-    home.onmouseover = function() { 
-      home.setAttribute( "src", "./assets/homeHover.png" );
-    };
-    home.onmouseout = function() { 
-      home.setAttribute( "src", "./assets/home.png" );
-    };
-    view.addControlPanel();
+  // renderBasics(){
+  //   let home = view.addImageToFooter( "home" );
+  //   home.setAttribute( "src", "./assets/home.png" );
+  //   // handle user input
+  //   home.onmouseover = function() { 
+  //     home.setAttribute( "src", "./assets/homeHover.png" );
+  //   };
+  //   home.onmouseout = function() { 
+  //     home.setAttribute( "src", "./assets/home.png" );
+  //   };
+  //   view.addControlPanel();
 
 
-    let title = view.addTextToFooter( "Collision Theory", "title" );
-    let author = view.addTextToFooter( "By Brandon Li", "author" );
+  //   let title = view.addTextToFooter( "Collision Theory", "title" );
+  //   let author = view.addTextToFooter( "By Brandon Li", "author" );
 
-  }
+  // }
   // TODO add buttons to the control panel, 
 }
 

@@ -12,22 +12,31 @@
  */
 'use strict';
 // import modules
-import ScreenView from "../../../ScreenView/ScreenView.js";
+import ScreenView from "../../../Screen/ScreenView.js";
+import Node from "../../../Screen/Node.js";
 // modules
-var screen = new ScreenView();
 
 export default class View {
   /**
    * set up the basic structure.
    */
   constructor(){ 
-    this.simWrapper = screen.addChildToParentType( 
-                        "div", "sim_wrapper", 
-                        null, "", "body" );
+    this.simWrapper = new Node({
+      id: "sim_wrapper", 
+      text: null, // @optional null means no text, otherwise use a string
+    });
 
-    this.footer = screen.addChildToParentType(
-                  "div", "footer", null, "", "body"
-    );
+    this.footer = new Node({
+      id: "footer",
+    });
+
+    this.simWrapper.appendChildren([ this.footer ])
+
+    this.screenView = new ScreenView( this.simWrapper )
+
+    // this.footer = screen.addChildToParentType(
+    //               "div", "footer", null, "", "body"
+    // );
     
   }
   addImageToFooter( id ){
