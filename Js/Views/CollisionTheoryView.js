@@ -29,34 +29,16 @@ export default class View {
       author: "Brandon Li"
     });
     this.screen = new ScreenView( this.sim.screenView.rootNode )
-
-
-    this.sim = this.sim.sim;
+    this.simNode = this.sim.sim;
   }
-  // addImageToFooter( id ){
-  //   let image = screen.addChildToParentNode( 
-  //                 "img", id, 
-  //                 null, "", this.footer );
-  //   // controller sets up event listeners
-  //   return image;
-  // }
-  // addTextToFooter( text, id ){
-  //   let textNode = screen.addChildToParentNode( 
-  //                 "div", id, 
-  //                 null, text, this.footer );
-  //   // controller sets up event listeners
-  //   return textNode;
-  // }
   /**
-   * add a control planner to the view // this is just the background 
-   * @public
-   * @param { options } - different attributes {
-      
-   }
+   * @param {object} options - the style of the control panel itself
+   * @return {node} - the control panel
    */
-  // addControlPanel( options ){
+  addControlPanel( options ){
+    return this.sim.addControlPanel( options )
+  }
 
-  // }
 
 }
 

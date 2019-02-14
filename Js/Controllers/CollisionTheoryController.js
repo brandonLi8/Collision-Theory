@@ -15,16 +15,34 @@
 // import modules
 import CollisionTheoryView from "../Views/CollisionTheoryView.js";
 
-
-// create the instances for the view 
-var view = new CollisionTheoryView(); 
-
 /**
  * @public 
  * provide a class for outside modules
  */
 export default class Controller {
-  
+  /**
+   * @public 
+   * @constructor
+   * create the instance of the view and the model.
+   */
+  constructor(){
+    // create the instances for the view 
+    this.view = new CollisionTheoryView(); 
+    let cart1Panel = this.view.addControlPanel({
+      left: "50px",
+      top: "20px"
+    });
+    let cart2Panel = this.view.addControlPanel({
+      left: 50 * 2 + 250 + "px",
+      top: "20px"
+    });
+    let controlPanel = this.view.addControlPanel({
+      right: "50px",
+      height: "300px",
+      top: "20px",
+      border: "3px solid orange"
+    });
+  }
   /**
    * @public 
    * render the basic view 
@@ -32,27 +50,6 @@ export default class Controller {
   run(){
     // this.renderBasics()
   }
-  /**
-   * @public 
-   * render the header, control panels, TODO
-   */
-  // renderBasics(){
-  //   let home = view.addImageToFooter( "home" );
-  //   home.setAttribute( "src", "./assets/home.png" );
-  //   // handle user input
-  //   home.onmouseover = function() { 
-  //     home.setAttribute( "src", "./assets/homeHover.png" );
-  //   };
-  //   home.onmouseout = function() { 
-  //     home.setAttribute( "src", "./assets/home.png" );
-  //   };
-  //   view.addControlPanel();
 
-
-  //   let title = view.addTextToFooter( "Collision Theory", "title" );
-  //   let author = view.addTextToFooter( "By Brandon Li", "author" );
-
-  // }
-  // TODO add buttons to the control panel, 
 }
 
