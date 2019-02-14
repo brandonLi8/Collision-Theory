@@ -24,7 +24,9 @@ export default class View {
   constructor(){ 
     this.sim = new Sim({
       backgroundSrc: "../CollisionTheory/Assets/flatiron.png",
-      home: "../sims"
+      home: "../sims",
+      title: "Collision Theory",
+      author: "Brandon Li"
     });
     this.screen = new ScreenView( this.sim.screenView.rootNode )
 
