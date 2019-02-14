@@ -14,6 +14,7 @@
 // import modules
 import ScreenView from "../../../Screen/ScreenView.js";
 import Node from "../../../Screen/Node.js";
+import Sim from "../../../SimCore/SimView.js"
 // modules
 
 export default class View {
@@ -21,38 +22,29 @@ export default class View {
    * set up the basic structure.
    */
   constructor(){ 
-    this.simWrapper = new Node({
-      id: "sim_wrapper", 
-      text: null, // @optional null means no text, otherwise use a string
+    this.sim = new Sim({
+      backgroundSrc: "../CollisionTheory/Assets/flatiron.png",
+      home: "../sims"
     });
+    this.screen = new ScreenView( this.sim.screenView.rootNode )
 
-    this.footer = new Node({
-      id: "footer",
-    });
 
-    this.simWrapper.appendChildren([ this.footer ])
-
-    this.screenView = new ScreenView( this.simWrapper )
-
-    // this.footer = screen.addChildToParentType(
-    //               "div", "footer", null, "", "body"
-    // );
-    
+    this.sim = this.sim.sim;
   }
-  addImageToFooter( id ){
-    let image = screen.addChildToParentNode( 
-                  "img", id, 
-                  null, "", this.footer );
-    // controller sets up event listeners
-    return image;
-  }
-  addTextToFooter( text, id ){
-    let textNode = screen.addChildToParentNode( 
-                  "div", id, 
-                  null, text, this.footer );
-    // controller sets up event listeners
-    return textNode;
-  }
+  // addImageToFooter( id ){
+  //   let image = screen.addChildToParentNode( 
+  //                 "img", id, 
+  //                 null, "", this.footer );
+  //   // controller sets up event listeners
+  //   return image;
+  // }
+  // addTextToFooter( text, id ){
+  //   let textNode = screen.addChildToParentNode( 
+  //                 "div", id, 
+  //                 null, text, this.footer );
+  //   // controller sets up event listeners
+  //   return textNode;
+  // }
   /**
    * add a control planner to the view // this is just the background 
    * @public
@@ -60,9 +52,9 @@ export default class View {
       
    }
    */
-  addControlPanel( options ){
+  // addControlPanel( options ){
 
-  }
+  // }
 
 }
 

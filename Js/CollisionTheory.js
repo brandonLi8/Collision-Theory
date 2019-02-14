@@ -11,7 +11,7 @@
  */
 
 // import modules
-import CollisionTheoryController from "./Controllers/Controller.js";
+import CollisionTheoryController from "./Controllers/CollisionTheoryController.js";
 // modules
 var controller = new CollisionTheoryController( ); 
 controller.run();

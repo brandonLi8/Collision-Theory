@@ -13,7 +13,7 @@
 
 'use strict';
 // import modules
-import CollisionTheoryView from "../Views/MainView.js";
+import CollisionTheoryView from "../Views/CollisionTheoryView.js";
 
 
 // create the instances for the view 
