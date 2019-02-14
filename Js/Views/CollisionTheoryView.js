@@ -23,7 +23,7 @@ export default class View {
    */
   constructor(){ 
     this.sim = new Sim({
-      backgroundSrc: "../CollisionTheory/Assets/flatiron.png",
+      backgroundSrc: "../CollisionTheory/assets/flatiron.png",
       home: "../sims",
       title: "Collision Theory",
       author: "Brandon Li"
@@ -37,6 +37,13 @@ export default class View {
    */
   addControlPanel( options ){
     return this.sim.addControlPanel( options )
+  }
+  /**
+   * @param {object} options - the style of the button
+   * @return {node} - the button
+   */
+  addButtonToControlPanel( options ){
+    return this.sim.addButtonToControlPanel( options );
   }
 
 
