@@ -14,4 +14,3 @@
 import CollisionTheoryController from "./Controllers/CollisionTheoryController.js";
 // modules
 var controller = new CollisionTheoryController( ); 
-controller.run();
