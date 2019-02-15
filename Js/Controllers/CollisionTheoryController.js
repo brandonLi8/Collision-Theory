@@ -14,7 +14,8 @@
 'use strict';
 // import modules
 import CollisionTheoryView from "../Views/CollisionTheoryView.js";
-
+import ScreenView from "../../../Screen/ScreenView.js";
+import Node from "../../../Screen/Node.js";
 /**
  * @public 
  * provide a class for outside modules
@@ -26,39 +27,28 @@ export default class Controller {
    * create the instance of the view and the model.
    */
   constructor(){
-    // create the instances for the view 
+    // create intance of the view
     this.view = new CollisionTheoryView(); 
+    // the panel for the first cart
     let cart1Panel = this.view.addControlPanel({
       left: "50px",
       top: "20px",
       border: "1px solid orange"
     });
+    // the panel for the second car
     let cart2Panel = this.view.addControlPanel({
       left: 50 * 2 + 250 + "px",
       top: "20px",
       border: "1px solid orange"
     });
+    // the main control panel
     let controlPanel = this.view.addControlPanel({
       right: "50px",
       height: "300px",
       top: "20px",
       border: "3px solid orange"
     });
-    this.view.addButtonToControlPanel({
-      text: "ASDFASDF",
-      style: {
-        border: "2px solid red",
-        height: "500px",
-        width: "200px"
-      },
-      hoverStyle: {
-          border: "2px solid black"
-      },
-      parent: controlPanel,
-      listener: function(){
-        console.log( "aehrawehraehwrawherhawerh" )
-      }
-    });
+    
   }
   /**
    * @public 
