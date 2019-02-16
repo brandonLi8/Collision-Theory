@@ -22,7 +22,7 @@ git clone https://github.com/brandonLi8/Learning_App.git
 ```
 (2) Start an http-server
 
-(3) Open `http://localhost/projectile-motion/projectile-motion_en.html` (You will probably need to modify this URL based on your HTTP port and relative path.)
+(3) Open `http://localhost/CollisionTheory` (You will probably need to modify this URL based on your HTTP port and relative path.)
 
 ### Get Involved
 
