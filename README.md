@@ -7,7 +7,7 @@ Collision Theory
 =============
 "Colision Theory" is an educational simulation in HTML5, by [Brandon Li](https://github.com/brandonLi8)
 
-### Try it!
+## Try it!
 
 <a href="https://brandonli8.github.io/Learning_App/CollisionTheory/" target="_blank">Visit the simulation</a>.
 
@@ -29,4 +29,6 @@ git clone https://github.com/brandonLi8/Learning_App.git
 Contact me via <a href="mailto:brandon.li820@icloud.com" target="_blank"> email </a>
 
 Help us improve, create a <a href="https://github.com/brandonLi8/Collision-Theory/issues" target="_blank">New Issue</a>
+
+I used <a href="https://github.com/brandonLi8/Learning_App/blob/master/Style.md" target="_blank"> this </a> style guildine
 
