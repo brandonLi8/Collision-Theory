@@ -358,24 +358,88 @@ export default class Controller {
       }
     });
 
-    let cart1 = this.view.addCart({
+    this.cart1 = this.view.addCart({
       type: "img",
       src: "./assets/blueCar.png",
       style: {
-        bottom: "218px",
+        top: "453px",
         left: "180px",
         position: "absolute"
-      }
+      },
+      draggable: true,
+      drag: function( self ){
+        // make sure that it doesn't go below the street 
+        let top = self.cart1.DOMobject.style.top.substring(
+          0,
+          self.cart1.DOMobject.style.top.length - 2 );
+        if ( top > 453 ){
+          self.cart1.setStyle({
+            top: "453px",
+          })
+        }
+      },
+      dragClose: function( self ){
+        self.cart1.newAnimation({
+          animation: [
+            {  top: self.cart1.DOMobject.style.top },
+            {  top: "453px" },
+          ],
+          timing: {
+            duration: 500
+          }
+        });
+        self.cart1.setStyle({
+          top: "453px",
+        })
+      },
+      dragScope: this
     })
-    let cart2 = this.view.addCart({
+    this.cart2 = this.view.addCart({
       type: "img",
       src: "./assets/redCar.png",
       style: {
-        bottom: "218px",
+        top: "453px",
         right: "180px",
         position: "absolute",
-      }
+      },
+      draggable: true,
+      drag: function( self ){ 
+        // make sure that it doesn't go below the street
+        let top = self.cart2.DOMobject.style.top.substring(
+          0,
+          self.cart2.DOMobject.style.top.length - 2 );
+        if ( top > 453 ){
+          self.cart2.setStyle({
+            top: "453px",
+          })
+        }
+      },
+      dragClose: function( self ){
+        self.cart2.newAnimation({
+          animation: [
+            {  top: self.cart2.DOMobject.style.top },
+            {  top: "453px" },
+          ],
+          timing: {
+            duration: 500
+          }
+        });
+        self.cart2.setStyle({
+          top: "453px",
+        })
+      },
+      dragScope: this
     })
+    this.cart1.addEventListener( "mouseover", _ =>
+      this.cart1.setStyle({
+        cursor: "pointer",
+      })
+    )
+    this.cart2.addEventListener( "mouseover", _ =>
+      this.cart2.setStyle({
+        cursor: "pointer",
+      })
+    )
 
   }
   /**

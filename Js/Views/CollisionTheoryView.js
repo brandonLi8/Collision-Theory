@@ -67,6 +67,7 @@ export default class View {
   addCart( options ){
     let cart = new Node( options )
     this.simNode.addChild( cart )
+    return cart;
   }
 
 
