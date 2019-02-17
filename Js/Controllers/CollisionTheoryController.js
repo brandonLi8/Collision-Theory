@@ -51,46 +51,58 @@ export default class Controller {
     // the slider
     this.restitution = this.view.addSlider({
       parent: this.controlPanel,
-      unit: "",
+      unit: "%",
       backgroundStyle: {
         fontFamily: "courier",
-        borderRadius: "13px", // slider background
-        width: "200px",
-        margin:  "5% auto", // of the entire container
+        borderRadius: "8px", // slider background
+        width: "250px",
+        height: "100px", 
+        background: "none",
+        border: "none",
+        boxShadow: "none" 
       },
       valueStyle: {
-        background: "#EEE", // the background behind the box showing the value
         border: "1px solid grey",
-        fontSize: "13px",
-        paddingLeft : "1px",
-        paddingRight : "1px",
-        height: "20px",
-        borderRadius: "4px",
-        marginLeft: "70%"
+        fontSize: "16px",
+        height: "23px",
+        position: "absolute",
+        margin: "0",
+        width: "60px",
+        top: "50px"
       },
       // title of the entire div
-      title: "Restitution",
+      title: "Collision Type",
       titleStyle: {
         fontSize: "20px",
         position: "absolute",
-        left: "13%"
+        top: "15px"
       },
       // sides before and after the slider showing the values
       leftStyle: {
-        fontSize: "10px"
+        fontSize: "20px",
+        fontWeight: 700,
+        position: "absolute",
+        left: "5px",
+        top: "90px"
       },
       rightStyle: {
-        fontSize: "10px"
+        fontSize: "20px",
+        fontWeight: 700,
+        position: "absolute",
+        right: "65px",
+        top: "90px"
       },
-      leftText: "left", // labels the sides
-      rightText: "right",
+      leftText: "Inelastic", // labels the sides
+      rightText: "Elastic",
       // the actual slider line
       sliderStyle: {
-        width: "60%",
+        width: "90%",
         height: "1px",
         border: "1px solid black",
         borderRadius : "10px",
         background : "#555",
+        position: "absolute",
+        top: "90px"
       },
       thumbStyle: {
         height: "15px",
@@ -100,6 +112,231 @@ export default class Controller {
     // add the play/pause button
     this.state = "pause";
     this.addPlayAndPauseButtons(); // add these buttons
+
+    // now add the first panel items
+    this.cart1Panel.addChild( this.view.addTextButton({
+      text: "Cart 1", 
+      // @optional the styling ( overriding doesnt delete all of it )
+      style: { 
+        border: "none",
+        display: "flex",
+        background: "none",
+        boxShadow: "none",
+        padding: 0,
+      },
+      hoverStyle: {
+        background: "none",
+        cursor: "default"
+      },
+      textStyle: { 
+        fontSize: "19px",
+        margin: "auto",
+        textAlign: "center",
+        fontFamily: "Courier",
+        padding: 0,
+      }
+    }) );
+    let cart1Mass = this.view.addSlider({
+      parent: this.cart1Panel,
+      unit: "kg",
+      leftText: "0", // labels the sides
+      rightText: "1",
+      backgroundStyle: {
+        background: "none",
+        border: "none",
+        boxShadow: "none",
+        fontFamily: "courier",
+        width: "200px",
+        marginTop: "-5px"
+      },
+      valueStyle: {
+        fontSize: "13px",
+        paddingLeft : "1px",
+        paddingRight : "1px",
+        height: "20px",
+        marginLeft: "70%"
+      },
+      // title of the entire div
+      title: "Mass",
+      titleStyle: {
+        fontSize: "20px",
+        position: "absolute",
+      },
+      // sides before and after the slider showing the values
+      leftStyle: {
+        fontSize: "10px"
+      },
+      rightStyle: {
+        fontSize: "10px"
+      },
+      // the actual slider line
+      sliderStyle: {
+        width: "90%",
+        height: "1px",
+        border: "1px solid black",
+        borderRadius : "10px",
+        background : "#555",
+      },
+    });
+    let cart1Velocity = this.view.addSlider({
+      parent: this.cart1Panel,
+      unit: "m/s",
+      leftText: "1", // labels the sides
+      rightText: "10",
+      backgroundStyle: {
+        background: "none",
+        border: "none",
+        boxShadow: "none",
+        fontFamily: "courier",
+        width: "200px",
+        marginTop: "20px"
+      },
+      valueStyle: {
+        fontSize: "13px",
+        paddingLeft : "0",
+        paddingRight : "5px",
+        marginRight: "-10px",
+        width: "200px",
+        height: "20px",
+        marginLeft: "70%"
+      },
+      // title of the entire div
+      title: "Starting Velocity",
+      titleStyle: {
+        fontSize: "14px",
+        fontWeight: "700",
+        position: "absolute",
+        left: "20px"
+      },
+      // sides before and after the slider showing the values
+      leftStyle: {
+        fontSize: "10px"
+      },
+      rightStyle: {
+        fontSize: "10px"
+      },
+      // the actual slider line
+      sliderStyle: {
+        width: "90%",
+        height: "1px",
+        border: "1px solid black",
+        borderRadius : "10px",
+        background : "#555",
+      },
+    });
+
+    // now add the second panel items
+    this.cart2Panel.addChild( this.view.addTextButton({
+      text: "Cart 2", 
+      // @optional the styling ( overriding doesnt delete all of it )
+      style: { 
+        border: "none",
+        display: "flex",
+        background: "none",
+        boxShadow: "none",
+        padding: 0,
+      },
+      hoverStyle: {
+        background: "none",
+        cursor: "default"
+      },
+      textStyle: { 
+        fontSize: "19px",
+        margin: "auto",
+        textAlign: "center",
+        fontFamily: "Courier",
+        padding: 0,
+      }
+    }) );
+    let cart2Mass = this.view.addSlider({
+      parent: this.cart2Panel,
+      unit: "kg",
+      leftText: "0", // labels the sides
+      rightText: "1",
+      backgroundStyle: {
+        background: "none",
+        border: "none",
+        boxShadow: "none",
+        fontFamily: "courier",
+        width: "200px",
+        marginTop: "-5px"
+      },
+      valueStyle: {
+        fontSize: "13px",
+        paddingLeft : "1px",
+        paddingRight : "1px",
+        height: "20px",
+        marginLeft: "70%"
+      },
+      // title of the entire div
+      title: "Mass",
+      titleStyle: {
+        fontSize: "20px",
+        position: "absolute",
+      },
+      // sides before and after the slider showing the values
+      leftStyle: {
+        fontSize: "10px"
+      },
+      rightStyle: {
+        fontSize: "10px"
+      },
+      // the actual slider line
+      sliderStyle: {
+        width: "90%",
+        height: "1px",
+        border: "1px solid black",
+        borderRadius : "10px",
+        background : "#555",
+      },
+    });
+    let cart2Velocity = this.view.addSlider({
+      parent: this.cart2Panel,
+      unit: "m/s",
+      leftText: "1", // labels the sides
+      rightText: "10",
+      backgroundStyle: {
+        background: "none",
+        border: "none",
+        boxShadow: "none",
+        fontFamily: "courier",
+        width: "200px",
+        marginTop: "20px"
+      },
+      valueStyle: {
+        fontSize: "13px",
+        paddingLeft : "0",
+        paddingRight : "5px",
+        marginRight: "-10px",
+        width: "200px",
+        height: "20px",
+        marginLeft: "70%"
+      },
+      // title of the entire div
+      title: "Starting Velocity",
+      titleStyle: {
+        fontSize: "14px",
+        fontWeight: "700",
+        position: "absolute",
+        left: "20px"
+      },
+      // sides before and after the slider showing the values
+      leftStyle: {
+        fontSize: "10px"
+      },
+      rightStyle: {
+        fontSize: "10px"
+      },
+      // the actual slider line
+      sliderStyle: {
+        width: "90%",
+        height: "1px",
+        border: "1px solid black",
+        borderRadius : "10px",
+        background : "#555",
+      },
+    });
+
   }
   /**
    * @public 
