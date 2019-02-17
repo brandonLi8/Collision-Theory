@@ -64,6 +64,11 @@ export default class View {
     return this.sim.addImageButton( options );
   }
 
+  addCart( options ){
+    let cart = new Node( options )
+    this.simNode.addChild( cart )
+  }
+
 
 }
 

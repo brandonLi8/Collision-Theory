@@ -33,13 +33,13 @@ export default class Controller {
     this.cart1Panel = this.view.addControlPanel({
       left: "50px",
       top: "20px",
-      border: "1px solid orange"
+      border: "2px solid blue"
     });
     // the panel for the second car
     this.cart2Panel = this.view.addControlPanel({
       left: 50 * 2 + 250 + "px",
       top: "20px",
-      border: "1px solid orange"
+      border: "2px solid red"
     });
     // the main control panel
     this.controlPanel = this.view.addControlPanel({
@@ -122,7 +122,6 @@ export default class Controller {
         display: "flex",
         background: "none",
         boxShadow: "none",
-        padding: 0,
       },
       hoverStyle: {
         background: "none",
@@ -133,14 +132,19 @@ export default class Controller {
         margin: "auto",
         textAlign: "center",
         fontFamily: "Courier",
+        borderBottom: "2px solid blue",
+        borderRadius: "0",
         padding: 0,
       }
     }) );
     let cart1Mass = this.view.addSlider({
       parent: this.cart1Panel,
       unit: "kg",
-      leftText: "0", // labels the sides
-      rightText: "1",
+      leftText: "1",
+      rightText: "10",
+      lowerBound: "1",
+      upperBound: "10",
+      startingValue: "1",
       backgroundStyle: {
         background: "none",
         border: "none",
@@ -177,6 +181,9 @@ export default class Controller {
         borderRadius : "10px",
         background : "#555",
       },
+      thumbStyle: {
+        background: "blue"
+      }
     });
     let cart1Velocity = this.view.addSlider({
       parent: this.cart1Panel,
@@ -223,6 +230,9 @@ export default class Controller {
         borderRadius : "10px",
         background : "#555",
       },
+      thumbStyle: {
+        background: "blue"
+      }
     });
 
     // now add the second panel items
@@ -246,13 +256,18 @@ export default class Controller {
         textAlign: "center",
         fontFamily: "Courier",
         padding: 0,
+        borderBottom: "2px solid red",
+        borderRadius: "0",
       }
     }) );
     let cart2Mass = this.view.addSlider({
       parent: this.cart2Panel,
       unit: "kg",
-      leftText: "0", // labels the sides
-      rightText: "1",
+      leftText: "1", // labels the sides
+      rightText: "10",
+      lowerBound: "1",
+      upperBound: "10",
+      startingValue: "1",
       backgroundStyle: {
         background: "none",
         border: "none",
@@ -289,6 +304,9 @@ export default class Controller {
         borderRadius : "10px",
         background : "#555",
       },
+      thumbStyle: {
+        background: "red"
+      }
     });
     let cart2Velocity = this.view.addSlider({
       parent: this.cart2Panel,
@@ -335,7 +353,29 @@ export default class Controller {
         borderRadius : "10px",
         background : "#555",
       },
+      thumbStyle: {
+        background: "red"
+      }
     });
+
+    let cart1 = this.view.addCart({
+      type: "img",
+      src: "./assets/blueCar.png",
+      style: {
+        bottom: "218px",
+        left: "180px",
+        position: "absolute"
+      }
+    })
+    let cart2 = this.view.addCart({
+      type: "img",
+      src: "./assets/redCar.png",
+      style: {
+        bottom: "218px",
+        right: "180px",
+        position: "absolute",
+      }
+    })
 
   }
   /**
@@ -344,7 +384,7 @@ export default class Controller {
    */
   pauseButtonClick(){
     // change the buttons
-    this.state = "play";
+    this.state = "pause";
     this.playButton.node.setStyle({
       display: ""
     })
@@ -358,7 +398,7 @@ export default class Controller {
    */
   playButtonClick(){
     // change the button
-    this.state = "pause";
+    this.state = "play";
     this.pauseButton.node.setStyle({
       display: ""
     })
@@ -377,6 +417,7 @@ export default class Controller {
         left: "calc( 50% - 37.5px )",
         bottom: "calc( 90px - 37.5px )",
         boxShadow:  "0 0 3px 0 rgb( 40, 40, 40 )",
+        display: "none",
         borderRadius: "50%",
         padding: 0,
         width: "75px"
@@ -391,7 +432,6 @@ export default class Controller {
         position: "absolute",
         left: "calc( 50% - 45px )",
         bottom: "calc( 90px - 45px )",
-        display: "none",
         boxShadow: "0 0 3px 0 rgb( 40, 40, 40 )",
         borderRadius: "50%",
         width: "90px"
