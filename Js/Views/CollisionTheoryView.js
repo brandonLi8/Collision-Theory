@@ -61,6 +61,9 @@ export default class View {
     // the coefficient restitution
     this.restitution = this.addSlider( this.controlPanel, {
       unit: "%",
+      lowerBound: 0,
+      upperBound: 100,
+      startingValue: 0,
       backgroundStyle: {
         fontFamily: "courier",
         borderRadius: "8px", // slider background
@@ -70,13 +73,14 @@ export default class View {
         border: "none",
         boxShadow: "none" 
       },
+      round: 0,
       valueStyle: {
         border: "1px solid grey",
         fontSize: "16px",
         height: "23px",
         position: "absolute",
         margin: "0",
-        width: "60px",
+        width: "100px",
         top: "50px"
       },
       // title of the entire div
@@ -133,6 +137,12 @@ export default class View {
       src: "./assets/pauseButton.png",
       hover: "./assets/pauseButtonHover.png", 
       scope: this,
+      hoverListener: function( _ ){
+        pauseButtonAnimation.play()
+      },
+      mouseout: function( _ ){
+        pauseButtonAnimation.cancel()
+      },
       listener: function( scope ){ scope.pauseButtonClick() }
     } );
     this.playButton = this.addImageButton( this.simNode, {
@@ -147,6 +157,12 @@ export default class View {
       src: "./assets/playButton.png",
       hover: "./assets/playButtonHover.png", 
       scope: this,
+      hoverListener: function( _ ){
+        playButtonAnimation.play()
+      },
+      mouseout: function( _ ){
+        playButtonAnimation.cancel()
+      },
       listener: function( scope ){ scope.playButtonClick() }
     } );
     // add the animations on the hover
@@ -155,19 +171,6 @@ export default class View {
     playButtonAnimation.pause();
     pauseButtonAnimation.pause();
 
-
-    this.playButton.addEventListener( "mouseover", function( _ ){
-      playButtonAnimation.play()
-    })
-    this.playButton.addEventListener( "mouseout", function( _ ){
-      playButtonAnimation.cancel()
-    })
-    this.pauseButton.addEventListener( "mouseover", function( _ ){
-      pauseButtonAnimation.play()
-    })
-    this.pauseButton.addEventListener( "mouseout", function( _ ){
-      pauseButtonAnimation.cancel()
-    })
 
     // set the default button
     // since it is paused, show the play button
@@ -505,8 +508,6 @@ export default class View {
       },
       dragScope: this
     });
-
-
 
   }
   /**
