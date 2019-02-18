@@ -19,11 +19,10 @@ export default class Cart {
    * @param {object} location - the location of the cart, ex:{ right: "50px" }
    * @param {number} velocity - the velocity of the cart in m/s
    * @param {string} orientation - "left" || "right" - direction it's going
-   * @param {string} color - the color of the cart
    *
    * @constructor
    */
-  constructor( location, velocity, orientation, color ) {
+  constructor( location, velocity, orientation ) {
 
     // @public {object} the style for the coordinates
     this.location = location;

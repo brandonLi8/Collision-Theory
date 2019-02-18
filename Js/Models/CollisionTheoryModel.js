@@ -34,19 +34,31 @@ export default class Model {
 
     // @public {Cart} the first cart 
     this.cart1 = new Cart( // the cart on the left
-      { left: "180px" },
+      { left: "180px", top: "453px" },
       0,
       "right", // goes in the right direction
-      this.cart1Color
     );
 
     // @public {Cart} the first cart 
     this.cart2 = new Cart( // the cart on the left
-      { right: "180px" },
+      { right: "180px", top: "453px" },
       0,
       "right", // goes in the right direction
-      this.cart2Color
     );
+
+    // @public {boolean} the state of the simulation
+    this.paused = true;
+    this.play = false;
+
+    // @public the mass information
+    this.massUnit = "kg";
+    this.massLowerBound = 1;
+    this.massUpperBound = 10;
+
+    // @public the velocity information
+    this.velocityUnit = "m/s";
+    this.velocityLowerBound = 0;
+    this.velocityUpperBound = 10;
 
   }
 }

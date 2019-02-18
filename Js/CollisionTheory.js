@@ -7,10 +7,27 @@
  * Copyright © 2019 Brandon Li. All rights reserved.
  *
  * Top-level file that creates the sim
+ * Main entry point for the sim.
  *
  */
 
-// import modules
-import CollisionTheoryController from "./Controllers/CollisionTheoryController.js";
+"use strict";
+
+import Model from "./Models/CollisionTheoryModel.js";
+import View from "./Views/CollisionTheoryView.js";
+
 // modules
-var controller = new CollisionTheoryController( ); 
+
+// create the model
+var collisionTheoryModel = new Model(); 
+
+var sim = {
+  backgroundSrc: "../CollisionTheory/assets/flatiron.png",
+  home: "../sims",
+  title: "Collision Theory",
+  author: "Brandon Li",
+};
+
+// create the view
+var CollisionTheoryView = new View( sim, collisionTheoryModel )
+;
