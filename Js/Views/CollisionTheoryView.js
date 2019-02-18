@@ -96,14 +96,15 @@ export default class View {
         fontWeight: 700,
         position: "absolute",
         left: "5px",
-        top: "90px"
+        top: "105px"
       },
       rightStyle: {
         fontSize: "20px",
         fontWeight: 700,
         position: "absolute",
         right: "65px",
-        top: "90px"
+        top: "105px",
+        
       },
       leftText: "Inelastic", // labels the sides
       rightText: "Elastic",
@@ -118,8 +119,10 @@ export default class View {
         top: "90px"
       },
       thumbStyle: {
-        height: "15px",
-        marginTop: "calc( -" + "15px" + " * 0.5"  + ")",
+        height: "25px",
+        width: "13px",
+        marginTop: "calc( -" + "25px" + " * 0.5"  + ")",
+        zIndex: 10
       },
     } );
 
@@ -163,7 +166,7 @@ export default class View {
       mouseout: function( _ ){
         playButtonAnimation.cancel()
       },
-      listener: function( scope ){ scope.playButtonClick() }
+      listener: function( scope ){ scope.playButtonClick(); }
     } );
     // add the animations on the hover
     const playButtonAnimation = this.playButton.jiggle( 200 );
@@ -201,7 +204,9 @@ export default class View {
         borderBottom: "2px solid " + model.cart1Color,
         borderRadius: "0",
         padding: 0,
-      }
+      },
+      mouseout: function( self ){ console.log( self )},
+      scope: this
     } );
     this.addTextButton( this.cart2Panel, {
       text: "Cart 2", 
@@ -470,8 +475,6 @@ export default class View {
       },
       dragScope: this
     });
-
-    // now add the carts
     this.cart2 = this.addCart({
       type: "img",
       src: "./assets/" + model.cart2Color + "Car.png",
@@ -509,6 +512,24 @@ export default class View {
       dragScope: this
     });
 
+    // now add the vector check box
+    this.velocityVector = this.addCheckBox( this.controlPanel, {
+      listener: function( self ) { },
+      scope: this,
+      containerStyle: {
+        margin: "80px auto"
+      },
+      label: "Velocity Vectors"
+    })
+
+    this.velocityVector = this.addCheckBox( this.controlPanel, {
+      listener: function( self ) { },
+      scope: this,
+      containerStyle: {
+        margin: "-60px auto"
+      },
+      label: "Momentum Vectors"
+    })
   }
   /**
    * @param {object} options - the style of the control panel itself
@@ -542,15 +563,25 @@ export default class View {
   addImageButton( parent, options ){
     return this.sim.addImageButton( parent, options );
   }
+  /**
+   * @param {object} options - information at Buttons/CheckButton.js
+   * @return {checkButton} - the button
+   */
+  addCheckBox( parent, options ){
+    return this.sim.addCheckButton( parent, options );
+  }
 
+  /**
+   * @param {object} options - add a cart image
+   * @return {node} - the cart
+   */
   addCart( options ){
     let cart = new Node( options )
     this.simNode.addChild( cart )
     return cart;
   }
 
-
-   /**
+  /**
    * @public 
    * called when the pause button is pressed
    */
