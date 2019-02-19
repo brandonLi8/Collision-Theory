@@ -32,18 +32,27 @@ export default class Model {
     // @public {String} the color scheme of the second cart
     this.cart2Color = "red";
 
-    // @public {Cart} the first cart 
-    this.cart1 = new Cart( // the cart on the left
-      { left: "180px", top: "453px" },
-      0,
-      "right", // goes in the right direction
-    );
+    // @private the padding on both sides of the cart
+    var padding = 180
+    // @private the size of the cart
+    var cartSize = 180;
 
     // @public {Cart} the first cart 
-    this.cart2 = new Cart( // the cart on the left
-      { right: "180px", top: "453px" },
+    this.cart1 = new Cart( // the cart on the left
+      453,
+      padding + cartSize,
       0,
       "right", // goes in the right direction
+      cartSize
+    );
+
+    // @public {Cart} the second car cart 
+    this.cart2 = new Cart( // the cart on the left
+      453,
+      1440 - padding - cartSize,
+      0,
+      "left", // goes in the right direction
+      cartSize
     );
 
     // @public {boolean} the state of the simulation
