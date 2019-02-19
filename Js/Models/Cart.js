@@ -16,16 +16,28 @@ export default class Cart {
    * @public 
    *
    * Construct the Simulation
-   * @param {object} location - the location of the cart, ex:{ right: "50px" }
+   * @param {number} - the top of the cart ( y location )
+   * @param {number} - left - the left coord of cart 
+   * the left is 0, the width is 1440
    * @param {number} velocity - the velocity of the cart in m/s
    * @param {string} orientation - "left" || "right" - direction it's going
+   * @param {number} cartSize - the size in px of the cart
    *
    * @constructor
    */
-  constructor( location, velocity, orientation ) {
+  constructor( top, left, velocity, orientation, cartSize ) {
 
-    // @public {object} the style for the coordinates
-    this.location = location;
+    // if it is the left car( the car that goes in the right direction)
+    // we wont the left to be the front of the car, so we have to subtract
+    // the cart size 
+    if ( orientation === "right" ) left -= cartSize;
+
+
+    // @public {string} - the top of the cart ( y location )
+    this.top = top + "px";
+
+    // @public {string} - left - the left coord of cart ( x location )
+    this.left = left + "px";
 
     // @public {number} the velocity of the cart in m/s
     this.velocity = velocity;
@@ -37,8 +49,12 @@ export default class Cart {
     // @private
     this.originalVelocity = velocity;
 
+    // create copies for reset
     // @private
-    this.originalLocation = location;
+    this.originalTop = top;
+
+    // @private 
+    this.originalLeft = left;
 
   }
   /**
@@ -49,7 +65,8 @@ export default class Cart {
    */
   reset() {
     this.velocity = this.originalVelocity;
-    this.location = this.originalLocation;
+    this.left = this.originalLeft + "px";
+    this.top = this.originalTop + "px";
   }
 
 }
