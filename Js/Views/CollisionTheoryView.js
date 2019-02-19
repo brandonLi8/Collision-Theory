@@ -443,7 +443,8 @@ export default class View {
       type: "img",
       src: "./assets/" + model.cart1Color + "Car.png",
       style: {
-        ...model.cart1.location,
+        top: model.cart1.top,
+        left: model.cart1.left,
         position: "absolute",
         cursor: "pointer",
       },
@@ -479,7 +480,8 @@ export default class View {
       type: "img",
       src: "./assets/" + model.cart2Color + "Car.png",
       style: {
-        ...model.cart2.location,
+        top: model.cart2.top,
+        left: model.cart2.left,
         position: "absolute",
         cursor: "pointer",
       },
