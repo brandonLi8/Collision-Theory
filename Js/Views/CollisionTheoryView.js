@@ -26,7 +26,11 @@ export default class View {
    * @constructor
    *
    */
-  constructor( simOptions, model ){ 
+  constructor( simOptions, model ){
+    // alias self for listeners
+    var self = this;
+
+    this.model = model; 
     // create the basic view
     this.sim = new Sim( simOptions );
 
@@ -35,19 +39,18 @@ export default class View {
     // the node of just the sim ( not the footer )
     this.simNode = this.sim.sim;
 
-    // This get ugly: construct the basic view for the collisionTheory sim
-
     // the panel for the first cart
     this.cart1Panel = this.addControlPanel({
       left: "50px",
       top: "20px",
-      border: "2px solid " + model.cart1Color
+      border: "2px solid " + model.cart1.color
     });
+
     // the panel for the second car
     this.cart2Panel = this.addControlPanel({
       left: 50 * 2 + 250 + "px",
       top: "20px",
-      border: "2px solid " + model.cart2Color
+      border: "2px solid " + model.cart2.color
     });
 
     // the main control panel
@@ -124,9 +127,35 @@ export default class View {
         marginTop: "calc( -" + "25px" + " * 0.5"  + ")",
         zIndex: 10
       },
+      listener: function(){
+        let restitution = self.restitution.value;
+        restitution = restitution.substring( 0, restitution.length - 2 )
+        self.model.restitution = Number.parseFloat( restitution ) / 100;
+      }
     } );
 
     // now add the pause and the play buttons
+
+    this.playButton = this.addImageButton( this.simNode, {
+      style: {
+        position: "absolute",
+        left: "calc( 50% - 45px )",
+        bottom: "calc( 90px - 45px )",
+        boxShadow: "0 0 3px 0 rgb( 40, 40, 40 )",
+        borderRadius: "50%",
+        width: "90px"
+      },
+      src: "./assets/playButton.png",
+      hover: "./assets/playButtonHover.png", 
+      hoverListener: function(){
+        playButtonAnimation.play()
+      },
+      mouseout: function(){
+        playButtonAnimation.cancel()
+      },
+      listener: function(){ self.playButtonClick(); }
+    } );
+
     this.pauseButton = this.addImageButton( this.simNode, {
       style: {
         position: "absolute",
@@ -139,34 +168,13 @@ export default class View {
       },
       src: "./assets/pauseButton.png",
       hover: "./assets/pauseButtonHover.png", 
-      scope: this,
-      hoverListener: function( _ ){
+      hoverListener: function(){
         pauseButtonAnimation.play()
       },
-      mouseout: function( _ ){
+      mouseout: function(){
         pauseButtonAnimation.cancel()
       },
-      listener: function( scope ){ scope.pauseButtonClick() }
-    } );
-    this.playButton = this.addImageButton( this.simNode, {
-      style: {
-        position: "absolute",
-        left: "calc( 50% - 45px )",
-        bottom: "calc( 90px - 45px )",
-        boxShadow: "0 0 3px 0 rgb( 40, 40, 40 )",
-        borderRadius: "50%",
-        width: "90px"
-      },
-      src: "./assets/playButton.png",
-      hover: "./assets/playButtonHover.png", 
-      scope: this,
-      hoverListener: function( _ ){
-        playButtonAnimation.play()
-      },
-      mouseout: function( _ ){
-        playButtonAnimation.cancel()
-      },
-      listener: function( scope ){ scope.playButtonClick(); }
+      listener: function(){ self.pauseButtonClick() }
     } );
     // add the animations on the hover
     const playButtonAnimation = this.playButton.jiggle( 200 );
@@ -177,8 +185,30 @@ export default class View {
 
     // set the default button
     // since it is paused, show the play button
-    if ( !model.play && model.pause ) 
+    if ( !model.isPlaying.value ) 
       this.pauseButton.setStyle({ display: "none" });
+
+    // add a listener to the model isPlaying, when the model isplaying is 
+    // changed update the buttons
+    model.isPlaying.setListener( function( newValue ){
+      if ( newValue === false ){ // now paused, show play button
+        self.pauseButton.setStyle({
+          display: "none"
+        })
+        self.playButton.setStyle({
+          display: ""
+        });
+      }
+      else if ( newValue ===  true ){
+        self.pauseButton.setStyle({
+          display: ""
+        })
+        self.playButton.setStyle({
+          display: "none"
+        });
+      }
+    } )
+
 
     // add the sliders to each panel
 
@@ -201,12 +231,10 @@ export default class View {
         margin: "auto",
         textAlign: "center",
         fontFamily: "Courier",
-        borderBottom: "2px solid " + model.cart1Color,
+        borderBottom: "2px solid " + model.cart1.color,
         borderRadius: "0",
         padding: 0,
-      },
-      mouseout: function( self ){ console.log( self )},
-      scope: this
+      }
     } );
     this.addTextButton( this.cart2Panel, {
       text: "Cart 2", 
@@ -228,14 +256,14 @@ export default class View {
         textAlign: "center",
         fontFamily: "Courier",
         padding: 0,
-        borderBottom: "2px solid " + model.cart2Color,
+        borderBottom: "2px solid " + model.cart2.color,
         borderRadius: "0",
       }
     } );
 
 
-    // mass sliders
-    let cart1Mass = this.addSlider( this.cart1Panel, {
+    // mass sliders 
+    this.cart1Mass = this.addSlider( this.cart1Panel, {
       unit: model.massUnit,
       leftText: "" + model.massLowerBound,
       rightText: "" + model.massUpperBound,
@@ -280,10 +308,17 @@ export default class View {
         background : "#555",
       },
       thumbStyle: {
-        background: model.cart1Color
+        background: model.cart1.color
+      },
+      // add a listener that changes the model mass
+      listener: function(){
+        self.model.isPlaying.value = false;
+        let value = self.cart1Mass.value;
+        value = value.substring( 0, value.length - 2 )// get rid or the unit
+        self.model.cart1.mass.value = Number.parseFloat( value );;
       }
     } );
-    let cart2Mass = this.addSlider( this.cart2Panel, {
+    this.cart2Mass = this.addSlider( this.cart2Panel, {
       unit: model.massUnit,
       leftText: "" + model.massLowerBound,
       rightText: "" + model.massUpperBound,
@@ -328,18 +363,25 @@ export default class View {
         background : "#555",
       },
       thumbStyle: {
-        background: model.cart2Color
+        background: model.cart2.color
+      },
+      // add a listener that changes the model mass
+      listener: function(){
+        self.model.isPlaying.value = false;
+        let value = self.cart2Mass.value;
+        value = value.substring( 0, value.length - 2 )// get rid or the unit
+        self.model.cart2.mass.value = Number.parseFloat( value );;
       }
     } );
  
     // velocity sliders
-    let cart1Velocity = this.addSlider( this.cart1Panel, {
+    this.cart1Velocity = this.addSlider( this.cart1Panel, {
       unit: model.velocityUnit,
       leftText: "" + model.velocityLowerBound, // labels the sides
       rightText: "" + model.velocityUpperBound,
       lowerBound: model.velocityLowerBound,
       upperBound: model.velocityUpperBound,
-      startingValue: "5",
+      startingValue: "25",
       backgroundStyle: {
         background: "none",
         border: "none",
@@ -353,17 +395,17 @@ export default class View {
         paddingLeft : "0",
         paddingRight : "5px",
         marginRight: "-10px",
-        width: "200px",
+        width: "300px",
         height: "20px",
-        marginLeft: "70%"
+        marginLeft: "60%"
       },
       // title of the entire div
-      title: "Starting Velocity",
+      title: "Velocity",
       titleStyle: {
-        fontSize: "14px",
+        fontSize: "17px",
         fontWeight: "700",
         position: "absolute",
-        left: "20px"
+        left: "60px"
       },
       // sides before and after the slider showing the values
       leftStyle: {
@@ -381,18 +423,25 @@ export default class View {
         background : "#555",
       },
       thumbStyle: {
-        background: model.cart1Color,
+        background: model.cart1.color,
+      },
+      // add a listener that changes the model velocity
+      listener: function(){
+        self.model.isPlaying.value = false;
+        let value = self.cart1Velocity.value;
+        value = value.substring( 0, value.length - 3 )// get rid or the unit
+        self.model.cart1.velocity.value = Number.parseFloat( value );;
       }
     } );
 
     // velocity sliders
-    let cart2Velocity = this.addSlider( this.cart2Panel, {
+    this.cart2Velocity = this.addSlider( this.cart2Panel, {
       unit: model.velocityUnit,
       leftText: "" + model.velocityLowerBound, // labels the sides
       rightText: "" + model.velocityUpperBound,
       lowerBound: model.velocityLowerBound,
       upperBound: model.velocityUpperBound,
-      startingValue: "5",
+      startingValue: "25",
       backgroundStyle: {
         background: "none",
         border: "none",
@@ -408,15 +457,15 @@ export default class View {
         marginRight: "-10px",
         width: "200px",
         height: "20px",
-        marginLeft: "70%"
+        marginLeft: "60%"
       },
       // title of the entire div
-      title: "Starting Velocity",
+      title: "Velocity",
       titleStyle: {
-        fontSize: "14px",
+        fontSize: "17px",
         fontWeight: "700",
         position: "absolute",
-        left: "20px"
+        left: "60px"
       },
       // sides before and after the slider showing the values
       leftStyle: {
@@ -434,17 +483,37 @@ export default class View {
         background : "#555",
       },
       thumbStyle: {
-        background: model.cart2Color,
+        background: model.cart2.color,
+      },
+      // add a listener that changes the model velocity
+      listener: function(){
+        self.model.isPlaying.value = false;
+        let value = self.cart2Velocity.value;
+        value = value.substring( 0, value.length - 3 )// get rid or the unit
+        self.model.cart2.velocity.value = Number.parseFloat( value );
       }
     } );
 
+    // now add listeners to the cart x coordinates
+    this.model.cart1.x.setListener( function() {
+      self.cart1.setStyle({
+        // subtract 180 because the cart postion because the model position
+        // is the tip of the cart
+        left: self.model.cart1.x - 180 + "px"
+      })
+    })
+    this.model.cart2.x.setListener( function() {
+      self.cart2.setStyle({
+        left: self.model.cart2.x + "px"
+      })
+    })
+   
     // now add the carts
     this.cart1 = this.addCart({
       type: "img",
-      src: "./assets/" + model.cart1Color + "Car.png",
+      src: "./assets/" + model.cart1.color + "Car.png",
       style: {
-        top: model.cart1.top,
-        left: model.cart1.left,
+        top: model.cart1.y + "px",
         position: "absolute",
         cursor: "pointer",
       },
@@ -461,6 +530,10 @@ export default class View {
         }
       },
       dragClose: function( self ){
+       let coord = Number.parseInt( self.cart1.DOMobject.style.left.substring(
+          0,
+          self.cart1.DOMobject.style.left.length - 2 ) );
+        self.model.cart1.x.value = coord + 180;
         self.cart1.newAnimation({
           animation: [
             {  top: self.cart1.DOMobject.style.top },
@@ -478,10 +551,9 @@ export default class View {
     });
     this.cart2 = this.addCart({
       type: "img",
-      src: "./assets/" + model.cart2Color + "Car.png",
+      src: "./assets/" + model.cart2.color + "Car.png",
       style: {
-        top: model.cart2.top,
-        left: model.cart2.left,
+        top: model.cart2.y + "px",
         position: "absolute",
         cursor: "pointer",
       },
@@ -498,6 +570,10 @@ export default class View {
         }
       },
       dragClose: function( self ){
+        let coord = Number.parseInt( self.cart2.DOMobject.style.left.substring(
+          0,
+          self.cart2.DOMobject.style.left.length - 2 ) );
+        self.model.cart2.x.value = coord ;
         self.cart2.newAnimation({
           animation: [
             {  top: self.cart2.DOMobject.style.top },
@@ -513,8 +589,11 @@ export default class View {
       },
       dragScope: this
     });
-
+    // set the x values
+    this.model.cart1.x.value = this.model.cart1.x.value;
+    this.model.cart2.x.value = this.model.cart2.x.value;
     // now add the vector check box
+
     this.velocityVector = this.addCheckBox( this.controlPanel, {
       listener: function( self ) { },
       scope: this,
@@ -532,7 +611,107 @@ export default class View {
       },
       label: "Momentum Vectors"
     })
-  }
+    // now listen to velocity changes and mirror them in the slider
+    this.model.cart1.velocity.setListener( function( newValue ){
+      self.cart1Velocity.setValue( newValue )
+    } );
+    this.model.cart2.velocity.setListener( function( newValue ){
+      self.cart2Velocity.setValue( newValue )
+    } );
+    // do the same with mass changed
+    this.model.cart1.mass.setListener( function( newValue ){
+      self.cart1Mass.setValue( newValue )
+    } );
+    this.model.cart2.mass.setListener( function( newValue ){
+      self.cart2Mass.setValue( newValue )
+    } );
+
+    // add the reset run button
+    this.resetRun = this.addTextButton( this.simNode, {
+      text: "Reset Run", 
+      style: { 
+        border: "2px solid #05F",
+        borderRadius: "7px",
+        width: "120px",
+        height: "40px",
+        background: "#DC143C",
+        boxShadow: "0 0 1px 0 rgb( 40, 40, 40 )",
+        position: "absolute",
+        left: "calc( 50% + 120px )",
+        bottom: "60px",
+        color: "#FFF"
+      },
+
+      hoverStyle: { 
+        background: "#ab123a"
+      },
+
+      listener: function(){
+        self.model.resetRun()
+      },
+      hoverListener: function() {
+        resetRunAnimation.play()
+      },
+      mouseout: function(){
+        resetRunAnimation.cancel()
+      }
+    });
+    // add the animations on the hover
+    const resetRunAnimation = this.resetRun.newAnimation({
+      animation: [
+        {  transform: "scale( 1, 1 )" },
+        {  transform: "scale( 1.1, 1.1 )" },
+      ],
+      timing: {
+        fill: "forwards",
+        duration: 200
+      }
+    });
+    resetRunAnimation.pause();
+
+    // add the reset all button
+    this.resetAll = this.addTextButton( this.controlPanel, {
+      text: "Reset All", 
+      style: { 
+        border: "2px solid #05F",
+        borderRadius: "7px",
+        width: "120px",
+        height: "40px",
+        background: "#DC143C",
+        boxShadow: "0 0 1px 0 rgb( 40, 40, 40 )",
+        position: "absolute",
+        left: "calc( 50% - 60px )",
+        top: "calc( 50% - 20px )",
+        color: "#FFF"
+      },
+
+      hoverStyle: { 
+        background: "#ab123a"
+      },
+
+      listener: function(){
+        self.model.resetAll()
+      },
+      hoverListener: function() {
+        resetAllAnimation.play()
+      },
+      mouseout: function(){
+        resetAllAnimation.cancel()
+      }
+    });
+    // add the animations on the hover
+    const resetAllAnimation = this.resetAll.newAnimation({
+      animation: [
+        {  transform: "scale( 1, 1 )" },
+        {  transform: "scale( 1.1, 1.1 )" },
+      ],
+      timing: {
+        fill: "forwards",
+        duration: 200
+      }
+    });
+    resetAllAnimation.pause();
+  };
   /**
    * @param {object} options - the style of the control panel itself
    * @return {node} - the control panel
@@ -589,13 +768,8 @@ export default class View {
    */
   pauseButtonClick(){
     // change the buttons
-    // this.state = "pause";
-    this.playButton.setStyle({
-      display: ""
-    })
-    this.pauseButton.setStyle({
-      display: "none"
-    })
+    // now pause
+    this.model.isPlaying.value = false;
   }
   /**
    * @public 
@@ -603,13 +777,10 @@ export default class View {
    */
   playButtonClick(){
     // change the button
-    // this.state = "play";
-    this.pauseButton.setStyle({
-      display: ""
-    })
-    this.playButton.setStyle({
-      display: "none"
-    })
+    this.model.isPlaying.value = true; // now play
+
+    // now run!
+    this.model.run();
   }
 
 
