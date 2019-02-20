@@ -9,6 +9,10 @@
  * Model for a cart
  * 
  */
+
+// modules 
+import ObservableVariable from "../../../Observe/ObservableVariable.js";
+
 "use strict";
 
 export default class Cart {
@@ -16,57 +20,61 @@ export default class Cart {
    * @public 
    *
    * Construct the Simulation
-   * @param {number} - the top of the cart ( y location )
-   * @param {number} - left - the left coord of cart 
-   * the left is 0, the width is 1440
-   * @param {number} velocity - the velocity of the cart in m/s
-   * @param {string} orientation - "left" || "right" - direction it's going
-   * @param {number} cartSize - the size in px of the cart
+   * options = {
+   *    @param {number} - y: the y coordinate of the cart
+   *    @param {number} - x: the x coordinate of the TIP of the car
+   *    @param {number} velocity : the velocity of the cart in m/s
+   *    @param {string} direction : "left" || "right" - direction it's going
+   *    @param {number} size: - the size in px of the cart 
+   *    @param {number} mass: the mass of the cart
+   *    @param {string} color: the color of the cart
+   * }
    *
    * @constructor
    */
-  constructor( top, left, velocity, orientation, cartSize ) {
+  constructor( options ) {
 
-    // if it is the left car( the car that goes in the right direction)
-    // we wont the left to be the front of the car, so we have to subtract
-    // the cart size 
-    if ( orientation === "right" ) left -= cartSize;
+    // @private {object} keep track of the original options for resets
+    this.originalOptions = options;
 
+    // @public {number} - the top of the cart ( y location )
+    this.y = options.y;
 
-    // @public {string} - the top of the cart ( y location )
-    this.top = top + "px";
-
-    // @public {string} - left - the left coord of cart ( x location )
-    this.left = left + "px";
+    // @public {obervableVariable} - left - the left coord of cart (x location)
+    this.x = new ObservableVariable( options.x );
 
     // @public {number} the velocity of the cart in m/s
-    this.velocity = velocity;
+    this.velocity = new ObservableVariable( options.velocity );
 
     // @public (read-only) {string} orientation - direction it's going
-    this.orientation = orientation;
+    this.direction = options.direction;
 
-    // make original copies for reset 
-    // @private
-    this.originalVelocity = velocity;
+    // @public the mass
+    this.mass = new ObservableVariable( options.mass );
 
-    // create copies for reset
-    // @private
-    this.originalTop = top;
+    // @public the velocity
+    this.color = options.color;
 
-    // @private 
-    this.originalLeft = left;
-
+    // @public the size
+    this.size = options.size;
   }
   /**
    * Restores the initial state of the Cart. This method is called when the 
-   * simulation "Reset All" button is pressed. Note that orientation is constant
-   * and doesn't have to be reset. 
+   * simulation "Reset All" button is pressed. 
    * @public
    */
   reset() {
-    this.velocity = this.originalVelocity;
-    this.left = this.originalLeft + "px";
-    this.top = this.originalTop + "px";
+    // y is contant and doesn't need to be reset
+
+    this.x = new ObservableVariable( this.originalOptions.x );
+   
+    // direction is contant and doesn't need to be reset
+
+    this.velocity = new ObservableVariable( this.originalOptions.velocity );
+
+    this.mass = new ObservableVariable( this.originalOptions.mass );
+
+    // color and size are contant
   }
 
 }
