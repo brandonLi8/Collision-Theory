@@ -16,8 +16,6 @@
 import Model from "./Models/CollisionTheoryModel.js";
 import View from "./Views/CollisionTheoryView.js";
 
-// modules
-
 // create the model
 var collisionTheoryModel = new Model(); 
 
@@ -29,5 +27,4 @@ var sim = {
 };
 
 // create the view
-var CollisionTheoryView = new View( sim, collisionTheoryModel )
-;
+var CollisionTheoryView = new View( sim, collisionTheoryModel );
