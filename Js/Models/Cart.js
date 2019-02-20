@@ -57,6 +57,9 @@ export default class Cart {
 
     // @public the size
     this.size = options.size;
+
+    // @publix the size
+    this.changeX = options.changeX;
   }
   /**
    * Restores the initial state of the Cart. This method is called when the 
@@ -66,15 +69,23 @@ export default class Cart {
   reset() {
     // y is contant and doesn't need to be reset
 
-    this.x = new ObservableVariable( this.originalOptions.x );
+    this.x.value = this.originalOptions.x;
    
     // direction is contant and doesn't need to be reset
 
-    this.velocity = new ObservableVariable( this.originalOptions.velocity );
+    this.velocity.value = this.originalOptions.velocity;
 
-    this.mass = new ObservableVariable( this.originalOptions.mass );
+    this.mass.value = this.originalOptions.mass;
 
     // color and size are contant
+  }
+  /**
+   * Restores the initial location. This method is called when the 
+   * simulation "Reset Run" button is pressed. 
+   * @public
+   */
+  resetLocation() {
+    this.x.value = this.originalOptions.x;
   }
 
 }
