@@ -14,7 +14,6 @@
 // import modules
 import Cart from "./Cart.js";
 
-
 export default class Model {
   /**
    * @public 
@@ -22,42 +21,38 @@ export default class Model {
    * Construct the Simulation
    */
   constructor(){
-
-    const originalPadding = "180px"; // the padding between the edge of the 
-    // screen and the cart
-
-    // @public {String} the color scheme of the first cart
-    this.cart1Color = "blue";
-
-    // @public {String} the color scheme of the second cart
-    this.cart2Color = "red";
-
+    var self = this;
     // @private the padding on both sides of the cart
-    var padding = 180
+    const padding = 180
+
     // @private the size of the cart
-    var cartSize = 180;
+    this.cartSize = 180;
 
     // @public {Cart} the first cart 
-    this.cart1 = new Cart( // the cart on the left
-      453,
-      padding + cartSize,
-      0,
-      "right", // goes in the right direction
-      cartSize
-    );
+    this.cart1 = new Cart({ // the cart on the left
+      y: 453,
+      x: padding + this.cartSize,
+      direction: "right", // goes in the right direction
+      size: this.cartSize,
+      mass: 1,
+      velocity: 5,
+      color: "blue"
+    });
 
     // @public {Cart} the second car cart 
-    this.cart2 = new Cart( // the cart on the left
-      453,
-      1440 - padding - cartSize,
-      0,
-      "left", // goes in the right direction
-      cartSize
-    );
+    this.cart2 = new Cart({ // the cart on the left
+      y: 453,
+      x: 1440 - padding - this.cartSize,
+      direction: "left", // goes in the right direction
+      size: this.cartSize,
+      mass: 1,
+      velocity: 5,
+      color: "red"
+    });
+ 
+    // @public {ObservableVariable} is the simulation playing
+    this.isPlaying = false;
 
-    // @public {boolean} the state of the simulation
-    this.paused = true;
-    this.play = false;
 
     // @public the mass information
     this.massUnit = "kg";
@@ -70,4 +65,28 @@ export default class Model {
     this.velocityUpperBound = 10;
 
   }
+  /**
+   * @public 
+   * this is the logic to the sim
+   * move the carts when the play is pressed
+   */
+  run( mass1Slider, mass2Slider, velocity1Slider, velocity2Slider ){
+    console.log( this.cart1, this.cart2 )
+    // velocity1Slider.setValue( 20 )
+
+  //   var start = null;
+  //   var element = this.cart1;
+
+  //   function step(timestamp) {
+  //     if (!start) start = timestamp;
+  //     var progress = timestamp - start;
+  //     element.style.transform = 'translateX(' + Math.min(progress / 10, 200) + 'px)';
+  //     if (progress < 2000) {
+  //       window.requestAnimationFrame(step);
+  //     }
+  //   }
+
+  // window.requestAnimationFrame(step);
+  }
+
 }
