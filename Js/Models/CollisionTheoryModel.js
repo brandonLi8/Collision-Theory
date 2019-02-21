@@ -53,10 +53,8 @@ export default class Model {
       changeX: 0
     });
  
-    // @public {ObservableVariable} is the simulation playing
-    this.isPlaying = new ObservableVariable( false );
-    // @public {bool} 
-    this.newRun = true;
+    
+  
     // this tells if it is inside a run or not // this handles functionality
     // of the pause button.
 
@@ -73,7 +71,11 @@ export default class Model {
     // @public the coefficient of restitution
     this.restitution = 0;
 
-  }
+    // flags
+    // @public {ObservableVariable} is the simulation playing
+    this.isPlaying = new ObservableVariable( false );
+
+  } 
   /**
    * @public 
    * this is the logic to the sim
@@ -87,26 +89,25 @@ export default class Model {
     const pixelsPerMeter = 80;
     const millisecondsPerSecond = 1000;
 
-    if ( this.newRun ){ // only on a new run, calculate velocities
-      this.calculateVelocties();
-    }
+    this.calculateVelocties();
+
 
     var collided = false;
-    var ableToCollide = false;
-    if ( self.cart1.x.value < self.cart2.x.value ){
-      // only if the cart1 is less that the second cart
-      // or the first cart is in front of the other cart, we can collid
-      ableToCollide = true;
-    }
-    else {
-      this.calculateVelocties();
-    }
+    // var ableToCollide = false;
+    // if ( self.cart1.x.value < self.cart2.x.value ){
+    //   // only if the cart1 is less that the second cart
+    //   // or the first cart is in front of the other cart, we can collid
+    //   ableToCollide = true;
+    // }
+    // else {
+    //   this.calculateVelocties();
+    // }
 
     function moveCart( timestamp ) {
       self.cart1.x.value += self.cart1.changeX;
       self.cart2.x.value += self.cart2.changeX;
 
-      if ( ableToCollide && self.cart1.x.value > self.cart2.x.value && !collided ){
+      if ( self.cart1.x.value >= self.cart2.x.value &&!collided ){
         collideCarts();
         collided = true;
       }
@@ -117,7 +118,7 @@ export default class Model {
     setTimeout( moveCart, 1 );
 
     function collideCarts(){
-     
+      
       const mass1 = self.cart1.mass.value
       const mass2 = self.cart2.mass.value
 
@@ -131,18 +132,14 @@ export default class Model {
       
       let restitution = self.restitution;
 
-      let newVelocity2 = ( mass1 * differenceInVelocity * restitution - initialMomentum ) /
-                      ( 2 * mass2 )
 
-      newVelocity2 *= -1;
 
+      let newVelocity1 = ( initialMomentum + mass2*restitution*differenceInVelocity) / (mass1 + mass2)
+
+      let newVelocity2 = ( initialMomentum + mass2*restitution*(velocity1 - velocity2 )) / (mass1 + mass2)
       self.cart2.velocity.value = newVelocity2;
       
-
-      let newVelocity1 = (initialMomentum - newVelocity2*mass2)/mass1
-      // velocity1 = Math.round( velocity1 * Math.pow( 10, 2 ) ) 
-      //            / Math.pow( 10, 2 )
-
+      console.log( newVelocity2, newVelocity1 )
       self.cart1.velocity.value = newVelocity1;
       self.calculateVelocties();
     }
