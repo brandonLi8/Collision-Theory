@@ -312,6 +312,7 @@ export default class View {
       },
       // add a listener that changes the model mass
       listener: function(){
+        self.model.newRun = true;
         self.model.isPlaying.value = false;
         let value = self.cart1Mass.value;
         value = value.substring( 0, value.length - 2 )// get rid or the unit
@@ -367,6 +368,7 @@ export default class View {
       },
       // add a listener that changes the model mass
       listener: function(){
+        self.model.newRun = true;
         self.model.isPlaying.value = false;
         let value = self.cart2Mass.value;
         value = value.substring( 0, value.length - 2 )// get rid or the unit
@@ -427,6 +429,7 @@ export default class View {
       },
       // add a listener that changes the model velocity
       listener: function(){
+        self.model.newRun = true;
         self.model.isPlaying.value = false;
         let value = self.cart1Velocity.value;
         value = value.substring( 0, value.length - 3 )// get rid or the unit
@@ -487,10 +490,11 @@ export default class View {
       },
       // add a listener that changes the model velocity
       listener: function(){
+        self.model.newRun = true;
         self.model.isPlaying.value = false;
         let value = self.cart2Velocity.value;
         value = value.substring( 0, value.length - 3 )// get rid or the unit
-        self.model.cart2.velocity.value = Number.parseFloat( value );
+        self.model.cart2.velocity.value = -1*Number.parseFloat( value );
       }
     } );
 
@@ -519,6 +523,7 @@ export default class View {
       },
       draggable: true,
       drag: function( self ){
+        self.model.newRun = true;
         // make sure that it doesn't go below the street 
         let top = self.cart1.DOMobject.style.top.substring(
           0,
@@ -533,7 +538,21 @@ export default class View {
        let coord = Number.parseInt( self.cart1.DOMobject.style.left.substring(
           0,
           self.cart1.DOMobject.style.left.length - 2 ) );
-        self.model.cart1.x.value = coord + 180;
+        self.model.cart1.x.value = coord + self.model.cartSize;
+
+        if ( self.model.cart1.x.value > self.model.cart2.x.value ){
+          // when on top of each other shift
+          if ( self.model.cart1.x.value 
+              - self.model.cart2.x.value <= self.model.cartSize / 2 )
+            self.model.cart1.x.value = self.model.cart2.x.value - 40
+          else if ( self.model.cart1.x.value 
+              - self.model.cart2.x.value >= self.model.cartSize / 2 &&
+              self.model.cart1.x.value 
+              - self.model.cart2.x.value <= 2*self.model.cartSize  )
+            self.model.cart1.x.value = self.model.cart2.x.value 
+                                       + 2 * self.model.cartSize 
+                                       + 40
+        }
         self.cart1.newAnimation({
           animation: [
             {  top: self.cart1.DOMobject.style.top },
@@ -559,6 +578,7 @@ export default class View {
       },
       draggable: true,
       drag: function( self ){
+        self.model.newRun = true;
         // make sure that it doesn't go below the street 
         let top = self.cart2.DOMobject.style.top.substring(
           0,
@@ -573,7 +593,23 @@ export default class View {
         let coord = Number.parseInt( self.cart2.DOMobject.style.left.substring(
           0,
           self.cart2.DOMobject.style.left.length - 2 ) );
+
         self.model.cart2.x.value = coord ;
+
+        if ( self.model.cart1.x.value > self.model.cart2.x.value ){
+          // when on top of each other shift
+          if ( self.model.cart1.x.value 
+              - self.model.cart2.x.value <= self.model.cartSize / 2 )
+            self.model.cart2.x.value = self.model.cart1.x.value + 40
+          else if ( self.model.cart1.x.value 
+              - self.model.cart2.x.value >= self.model.cartSize / 2 &&
+              self.model.cart1.x.value 
+              - self.model.cart2.x.value <= 2*self.model.cartSize  )
+            self.model.cart2.x.value = self.model.cart1.x.value 
+                                       - 2 * self.model.cartSize 
+                                       - 40
+        }
+
         self.cart2.newAnimation({
           animation: [
             {  top: self.cart2.DOMobject.style.top },
@@ -613,10 +649,10 @@ export default class View {
     })
     // now listen to velocity changes and mirror them in the slider
     this.model.cart1.velocity.setListener( function( newValue ){
-      self.cart1Velocity.setValue( newValue )
+      self.cart1Velocity.setValue( Math.abs( newValue ) )
     } );
     this.model.cart2.velocity.setListener( function( newValue ){
-      self.cart2Velocity.setValue( newValue )
+      self.cart2Velocity.setValue( Math.abs( newValue ) )
     } );
     // do the same with mass changed
     this.model.cart1.mass.setListener( function( newValue ){
@@ -627,47 +663,47 @@ export default class View {
     } );
 
     // add the reset run button
-    this.resetRun = this.addTextButton( this.simNode, {
-      text: "Reset Run", 
-      style: { 
-        border: "2px solid #05F",
-        borderRadius: "7px",
-        width: "120px",
-        height: "40px",
-        background: "#DC143C",
-        boxShadow: "0 0 1px 0 rgb( 40, 40, 40 )",
-        position: "absolute",
-        left: "calc( 50% + 120px )",
-        bottom: "60px",
-        color: "#FFF"
-      },
+    // this.resetRun = this.addTextButton( this.simNode, {
+    //   text: "Reset Run", 
+    //   style: { 
+    //     border: "2px solid #05F",
+    //     borderRadius: "7px",
+    //     width: "120px",
+    //     height: "40px",
+    //     background: "#DC143C",
+    //     boxShadow: "0 0 1px 0 rgb( 40, 40, 40 )",
+    //     position: "absolute",
+    //     left: "calc( 50% + 120px )",
+    //     bottom: "60px",
+    //     color: "#FFF"
+    //   },
 
-      hoverStyle: { 
-        background: "#ab123a"
-      },
+    //   hoverStyle: { 
+    //     background: "#ab123a"
+    //   },
 
-      listener: function(){
-        self.model.resetRun()
-      },
-      hoverListener: function() {
-        resetRunAnimation.play()
-      },
-      mouseout: function(){
-        resetRunAnimation.cancel()
-      }
-    });
-    // add the animations on the hover
-    const resetRunAnimation = this.resetRun.newAnimation({
-      animation: [
-        {  transform: "scale( 1, 1 )" },
-        {  transform: "scale( 1.1, 1.1 )" },
-      ],
-      timing: {
-        fill: "forwards",
-        duration: 200
-      }
-    });
-    resetRunAnimation.pause();
+    //   listener: function(){
+    //     self.model.resetRun()
+    //   },
+    //   hoverListener: function() {
+    //     resetRunAnimation.play()
+    //   },
+    //   mouseout: function(){
+    //     resetRunAnimation.cancel()
+    //   }
+    // });
+    // // add the animations on the hover
+    // const resetRunAnimation = this.resetRun.newAnimation({
+    //   animation: [
+    //     {  transform: "scale( 1, 1 )" },
+    //     {  transform: "scale( 1.1, 1.1 )" },
+    //   ],
+    //   timing: {
+    //     fill: "forwards",
+    //     duration: 200
+    //   }
+    // });
+    // resetRunAnimation.pause();
 
     // add the reset all button
     this.resetAll = this.addTextButton( this.controlPanel, {
