@@ -48,7 +48,7 @@ export default class Model {
       direction: "left", // goes in the right direction
       size: this.cartSize,
       mass: 1,
-      velocity: 25,
+      velocity: -25,
       color: "red",
       changeX: 0
     });
@@ -88,31 +88,27 @@ export default class Model {
     const millisecondsPerSecond = 1000;
 
     if ( this.newRun ){ // only on a new run, calculate velocities
-      // go from meters per second to pixels per millisecond
-      // m/s * ( 80px / m ) * ( s / 1000 ms ) dimensional analysis
-      this.cart1.changeX = this.cart1.velocity.value * 80 / 1000;
-
-      // since its the other direction, multiple by -1
-      this.cart2.changeX = -1 * this.cart2.velocity.value * 80 / 1000;
-      this.newRun = false; // no longer a new run
-      // this will turn into a new run on the "reset run" button and the 
-      // reset all button
+      this.calculateVelocties();
     }
 
-
+    var collided = false;
     var ableToCollide = false;
     if ( self.cart1.x.value < self.cart2.x.value ){
       // only if the cart1 is less that the second cart
       // or the first cart is in front of the other cart, we can collid
       ableToCollide = true;
     }
+    else {
+      this.calculateVelocties();
+    }
 
     function moveCart( timestamp ) {
       self.cart1.x.value += self.cart1.changeX;
       self.cart2.x.value += self.cart2.changeX;
 
-      if ( ableToCollide && self.cart1.x.value >= self.cart2.x.value ){
+      if ( ableToCollide && self.cart1.x.value > self.cart2.x.value && !collided ){
         collideCarts();
+        collided = true;
       }
       if ( self.isPlaying.value === true )
         setTimeout( moveCart , 1 );
@@ -121,8 +117,34 @@ export default class Model {
     setTimeout( moveCart, 1 );
 
     function collideCarts(){
-      self.cart1.changeX *= -1;
-      self.cart2.changeX *= -1;
+     
+      const mass1 = self.cart1.mass.value
+      const mass2 = self.cart2.mass.value
+
+      const velocity1 = self.cart1.velocity.value
+      const velocity2 = self.cart2.velocity.value
+
+      let initialMomentum = ( mass1 * velocity1 )
+                          + ( mass2 * velocity2 );
+
+      let differenceInVelocity = velocity2 - velocity1 ;
+      
+      let restitution = self.restitution;
+
+      let newVelocity2 = ( mass1 * differenceInVelocity * restitution - initialMomentum ) /
+                      ( 2 * mass2 )
+
+      newVelocity2 *= -1;
+
+      self.cart2.velocity.value = newVelocity2;
+      
+
+      let newVelocity1 = (initialMomentum - newVelocity2*mass2)/mass1
+      // velocity1 = Math.round( velocity1 * Math.pow( 10, 2 ) ) 
+      //            / Math.pow( 10, 2 )
+
+      self.cart1.velocity.value = newVelocity1;
+      self.calculateVelocties();
     }
 
     
@@ -155,6 +177,19 @@ export default class Model {
     this.newRun = true;
     // pause
     this.isPlaying.value = false;
+  }
+
+  calculateVelocties(){
+    const pixelsPerMeter = 80;
+    const millisecondsPerSecond = 1000;
+    // go from meters per second to pixels per millisecond
+    // m/s * ( 80px / m ) * ( s / 1000 ms ) dimensional analysis
+    this.cart1.changeX = this.cart1.velocity.value * 80 / 1000;
+    // since its the other direction, multiple by -1
+    this.cart2.changeX = this.cart2.velocity.value * 80 / 1000;
+    this.newRun = false; // no longer a new run
+    // this will turn into a new run on the "reset run" button and the 
+    // reset all button
   }
 
 }
