@@ -20,7 +20,6 @@ import View from "./Views/CollisionTheoryView.js";
 var collisionTheoryModel = new Model(); 
 
 var sim = {
-  backgroundSrc: "../CollisionTheory/assets/flatiron.png",
   home: "../sims",
   title: "Collision Theory",
   author: "Brandon Li",
