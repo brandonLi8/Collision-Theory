@@ -24,7 +24,6 @@ export default class CartControlPanel {
    * @constructor
    * @param {cart} - the cart that this panel is representing
    * @param {model} - the collision theory model
-   * @param {string} - the 'left' of the panel
    * @return {node} - the control panel node
    */
   constructor( cart, model ){
