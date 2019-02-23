@@ -69,6 +69,9 @@ export default class Cart {
     // @private {object} keep track of the original options for resets
     this.originalOptions = options;
 
+    // @public {string} the cart number
+    this.number = options.number;
+
   }
   /**
    * Restores the initial state of the Cart. This method is called when the 
