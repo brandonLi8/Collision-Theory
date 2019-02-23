@@ -56,7 +56,8 @@ export default class Model {
       size: [ this.cartWidth, this.cartHeight ],
       mass: this.massStarting,
       velocity: this.velocityStarting,
-      color: "blue"
+      color: "blue",
+      number: 1
     });
 
     // @public {Cart} the second car cart 
@@ -67,6 +68,7 @@ export default class Model {
       mass: this.massStarting,
       velocity: -1 * this.velocityStarting, // opposite direction
       color: "red",
+      number: 2
     });
  
     // @public {ObservableVariable} is the simulation playing
