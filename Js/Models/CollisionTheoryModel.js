@@ -59,11 +59,11 @@ export default class Model {
       color: "blue",
       number: 1
     });
-
+    
     // @public {Cart} the second car cart 
     this.cart2 = new Cart({
       y: 100 - this.cartPercentage, // in percentage
-      x: window.innerWidth - padding - this.cartSize, // the left of the car
+      x: window.innerWidth - padding - this.cartWidth, // the left of the car
       size: [ this.cartWidth, this.cartHeight ],
       mass: this.massStarting,
       velocity: -1 * this.velocityStarting, // opposite direction
@@ -73,6 +73,12 @@ export default class Model {
  
     // @public {ObservableVariable} is the simulation playing
     this.isPlaying = new ObservableVariable( false );
+
+    // @public {ObservableVariable} is the velocity vector turned on
+    this.velocityVectorOn = new ObservableVariable( false );
+
+    // @public {ObservableVariable} is the momentum vector turned on
+    this.momentumVectorOn = new ObservableVariable( false );
 
   } 
   /**
@@ -225,6 +231,10 @@ export default class Model {
     this.restitution.value = this.restitutionStarting;
     // pause
     this.isPlaying.value = false;
+
+    // reset vectors
+    this.momentumVectorOn.value = false;
+    this.velocityVectorOn.value = false;
   }
 
   calculateVelocties(){
