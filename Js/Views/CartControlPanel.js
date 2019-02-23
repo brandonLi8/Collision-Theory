@@ -213,6 +213,19 @@ export default class CartControlPanel {
       }
     } );
 
+    // now listen to velocity changes and mirror them in the slider
+    cart.velocity.setListener( function( newValue ){
+      newValue = Math.round( newValue * Math.pow( 10, 2 ) ) 
+                 / Math.pow( 10, 2 ) // round the new value
+      velocitySlider.setValue( Math.abs( newValue ) )
+    } );
+    // do the same with mass changed
+    cart.mass.setListener( function( newValue ){
+      newValue = Math.round( newValue * Math.pow( 10, 2 ) ) 
+                 / Math.pow( 10, 2 )
+      massSlider.setValue( newValue )
+    } );
+
     controlPanel.appendChildren([
       label.node,
       massSlider.node,

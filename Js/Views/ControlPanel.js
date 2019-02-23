@@ -173,6 +173,7 @@ export default class ControlPanel {
 
     // the velocity check box
     var velocityVector = new CheckButton({
+      switch: model.velocityVectorOn.value,
       containerStyle: {
         position: "absolute",
         left: "10%",
@@ -182,13 +183,28 @@ export default class ControlPanel {
     });
 
     var momentumVector = new CheckButton({
+      switch: model.momentumVectorOn.value,
       containerStyle: {
         position: "absolute",
         left: "10%",
         top: "85%",
       },
-      label: "Momentum Vectors"
+      label: "Momentum Vectors",
+      listener: function() {
+        let newValue = momentumVector.isSwitched.value;
+        model.momentumVectorOn.value = newValue;
+      }
     })
+    // add listeners to reset when the model resets these values
+    model.momentumVectorOn.setListener( function( newValue ){
+      momentumVector.isSwitched.value = newValue
+    });
+    // add listeners to reset when the model resets these values
+    model.velocityVectorOn.setListener( function( newValue ){
+      velocityVector.isSwitched.value = newValue
+    });
+
+
 
     controlPanel.appendChildren([
       restitution.node,
