@@ -39,7 +39,7 @@ export default class Model {
     this.velocityUpperBound = 50;
 
     // @public the coefficient of restitution
-    this.restitution = 0;
+    this.restitution = new ObservableVariable( 1 );
     this.restitutionStarting = 1;
 
     // @private {number} the size of the cart
@@ -222,6 +222,7 @@ export default class Model {
     // reset the locations
     this.cart1.reset();
     this.cart2.reset();
+    this.restitution.value = this.restitutionStarting;
     // pause
     this.isPlaying.value = false;
   }
