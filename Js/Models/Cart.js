@@ -24,8 +24,7 @@ export default class Cart {
    *    @param {number} - y: the y coordinate of the cart
    *    @param {number} - x: the x coordinate of the TIP of the car
    *    @param {number} velocity : the velocity of the cart in m/s
-   *    @param {string} direction : "left" || "right" - direction it's going
-   *    @param {number} size: - the size in px of the cart 
+   *    @param {array} size: - the size in px of the cart [width, height]
    *    @param {number} mass: the mass of the cart
    *    @param {string} color: the color of the cart
    * }
@@ -34,32 +33,42 @@ export default class Cart {
    */
   constructor( options ) {
 
-    // @private {object} keep track of the original options for resets
-    this.originalOptions = options;
-
-    // @public {number} - the top of the cart ( y location )
+    // @public {number} - the style top of the cart ( y location ) 
+    // This **must** be in percent for scaling
     this.y = options.y;
 
-    // @public {obervableVariable} - left - the left coord of cart (x location)
+    // @public {obervableVariable} - left - the left coord of cart (x location);
+    // The view will observe and change the location based on the x.
+    // The view makes this value the tip of the car.
     this.x = new ObservableVariable( options.x );
 
     // @public {number} the velocity of the cart in m/s
+    // The view will change the velocity slider when this is changed.
     this.velocity = new ObservableVariable( options.velocity );
 
-    // @public (read-only) {string} orientation - direction it's going
-    this.direction = options.direction;
-
-    // @public the mass
+    // @public {observableVariable} the mass
+    // The view will change the mass slider when this is changed
     this.mass = new ObservableVariable( options.mass );
 
-    // @public the velocity
+    // @public {string} the color of the car
     this.color = options.color;
 
-    // @public the size
-    this.size = options.size;
+    // @publix {number} this is the change in x (pixels) perframe
+    this.deltaX = null;
 
-    // @publix the size
-    this.changeX = options.changeX;
+    // calculate the deltaX
+    this.calculateDeltaX();
+
+    // @public {number} height in pixels;
+    this.width = options.size[ 0 ];
+
+    // @public {number} height in pixels;
+    this.height = options.size[ 1 ];
+
+
+    // @private {object} keep track of the original options for resets
+    this.originalOptions = options;
+
   }
   /**
    * Restores the initial state of the Cart. This method is called when the 
@@ -74,19 +83,37 @@ export default class Cart {
     // direction is contant and doesn't need to be reset
 
     this.velocity.value = this.originalOptions.velocity;
-
+    this.calculateDeltaX();
     this.mass.value = this.originalOptions.mass;
 
-    // color and size are contant
+    // color and size are constant
   }
+ 
   /**
+   * This caclculates the change in x based on the velocity
+   * @public
+   */
+  calculateDeltaX(){
+    const pixelsPerMeter = 80;
+    const millisecondsPerSecond = 1000;
+    // go from meters per second ( velocity )to pixels per millisecond
+
+    // m/s * ( 80px / m ) * ( s / 1000 ms ) dimensional analysis
+    this.changeX = this.velocity.value 
+                   * pixelsPerMeter 
+                   / millisecondsPerSecond;
+
+  }
+
+
+   /**
    * Restores the initial location. This method is called when the 
    * simulation "Reset Run" button is pressed. 
    * @public
    */
-  resetLocation() {
-    this.x.value = this.originalOptions.x;
-  }
+  // resetLocation() {
+  //   this.x.value = this.originalOptions.x;
+  // }
 
 }
 
