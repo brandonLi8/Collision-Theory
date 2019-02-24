@@ -23,6 +23,7 @@ import BackgroundNode from "./BackgroundNode.js"
 import CartControlPanel from "./CartControlPanel.js"
 import ControlPanel from "./ControlPanel.js"
 import PlayButtonNode from "./PlayButtonNode.js"
+import StateButtons from "./stateButtons.js"
 
 import TextPushButton from "../../../Buttons/TextPushButton.js";
 
@@ -71,86 +72,10 @@ export default class View {
 
     this.pauseButton = this.playButtonNode[ 1 ];
 
-    // add the reset all button
-    var resetRun = new TextPushButton({
-      text: "Reset Run", 
-      style: { 
-        borderRadius: "7px",
-        width: "120px",
-        height: "7%",
-        background: "#DC143C",
-        boxShadow: "0 0 1px 0 rgb( 40, 40, 40 )",
-        position: "absolute",
-        left: "calc( 50% - 60px )",
-        top: "45%",
-        color: "#FFF"
-      },
-
-      hoverStyle: { 
-        background: "#ab123a"
-      },
-
-      listener: function(){
-        model.resetRun()
-      },
-      hoverListener: function() {
-        resetRunAnimation.play()
-      },
-      mouseout: function(){
-        resetRunAnimation.cancel()
-      }
-    }).node;
-    // add the animations on the hover
-    const resetRunAnimation = resetRun.newAnimation({
-      animation: [
-        {  transform: "scale( 1, 1 )" },
-        {  transform: "scale( 1.1, 1.1 )" },
-      ],
-      timing: {
-        fill: "forwards",
-        duration: 200
-      }
-    });
-    resetRunAnimation.cancel();
-
-
-    var resetCart = new TextPushButton({
-      text: "Reset Carts", 
-      style: { 
-        borderRadius: "7px",
-        width: "10%",
-        height: "6%",
-        background: "#DC143C",
-        boxShadow: "0 0 1px 0 rgb( 40, 40, 40 )",
-        position: "absolute",
-        color: "#FFF",
-        left: "56%",
-        bottom: "8%",
-        minWidth: "120px"
-      },
-      textStyle: {
-        fontSize: "1em"
-      },
-
-      hoverStyle: { 
-        background: "#ab123a"
-      },
-
-      listener: function(){
-        model.isPlaying.value = false;
-        model.cart1.resetLocation()
-        model.cart2.resetLocation();
-      },
-      hoverListener: function() {
-        resetCartAnimation.play()
-      },
-      mouseout: function(){
-        resetCartAnimation.cancel()
-      }
-    }).node;
-    // add the animations on the hover
-    const resetCartAnimation = resetCart.jiggle( 200 )
-    resetCartAnimation.cancel();
+    this.stateButtons = new StateButtons( model );
+    var resetRun = this.stateButtons[ 0 ]
+    var resetCart = this.stateButtons[ 1 ]
+  
 
     // in this rendering order
     this.simNode.appendChildren([
@@ -158,18 +83,22 @@ export default class View {
       this.cart1Panel,
       this.cart2Panel,
       this.controlPanel,
-      this.cart1,
-      this.cart2,
+      this.cart1.weight,
+      this.cart2.weight,
+      this.cart1.cart,
+      this.cart2.cart,
       this.playButton.node,
       this.pauseButton.node,
       resetRun,
-      resetCart
+      resetCart,
+
     ])
 
+    // remove the reset run button
     if ( !model.isPlaying.value ) this.simNode.removeChild( resetRun )
       
     model.alreadyCollided.setListener( function( newValue ){
-      if ( newValue === true )
+      if ( newValue === true ) // add it based on the model
         self.simNode.addChild( resetRun )
       else {
         self.simNode.removeChild( resetRun )
