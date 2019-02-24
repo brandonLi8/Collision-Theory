@@ -145,6 +145,9 @@ export default class CartControlPanel {
         // get rid or the unit
         value = value.substring( 0, value.length - model.massUnit.length )
         cart.mass.value = Number.parseFloat( value );
+        model.newRun = true
+        model.alreadyCollided.value = false;
+
       }
     });
 
@@ -210,6 +213,8 @@ export default class CartControlPanel {
         if ( cart.number === 2 ) value *= -1;
         // for the right car, the velocity is negative
         cart.velocity.value = Number.parseFloat( value );
+        model.newRun = true
+        model.alreadyCollided.value = false;
       }
     } );
 

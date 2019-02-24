@@ -42,6 +42,7 @@ export default class CartNode {
       draggable: true,
 
       drag: function(){
+        model.isPlaying.value = false;
         let top = cartNode.DOMobject.style.top;
         top = top.substring( 0, top.length - 2 )
         // make sure that it doesn't go below the street 
@@ -52,7 +53,8 @@ export default class CartNode {
             top: cartY,
           })
         }
-        // cart.x = 
+        if ( model.alreadyCollided.value === true ) model.newRun = true
+        model.alreadyCollided.value = false;
       },
 
       dragClose: function(){
@@ -118,36 +120,8 @@ export default class CartNode {
     // set it to the model location
     cart.x.value = cart.x.value;
     
-   
-
+  
     return cartNode;
   }
 
 }
-// 1//if ( self.model.cart1.x.value > self.model.cart2.x.value ){
-//     //       // when on top of each other shift
-//     //       if ( self.model.cart1.x.value 
-//     //           - self.model.cart2.x.value <= self.model.cartSize / 2 )
-//     //         self.model.cart1.x.value = self.model.cart2.x.value - 40
-//     //       else if ( self.model.cart1.x.value 
-//     //           - self.model.cart2.x.value >= self.model.cartSize / 2 &&
-//     //           self.model.cart1.x.value 
-//     //           - self.model.cart2.x.value <= 2*self.model.cartSize  )
-//     //         self.model.cart1.x.value = self.model.cart2.x.value 
-//     //                                    + 2 * self.model.cartSize 
-//     //                                    + 40
-//     //     }
-// //2
-//  if ( self.model.cart1.x.value > self.model.cart2.x.value ){
-//     //       // when on top of each other shift
-//     //       if ( self.model.cart1.x.value 
-//     //           - self.model.cart2.x.value <= self.model.cartSize / 2 )
-//     //         self.model.cart2.x.value = self.model.cart1.x.value + 40
-//     //       else if ( self.model.cart1.x.value 
-//     //           - self.model.cart2.x.value >= self.model.cartSize / 2 &&
-//     //           self.model.cart1.x.value 
-//     //           - self.model.cart2.x.value <= 2*self.model.cartSize  )
-//     //         self.model.cart2.x.value = self.model.cart1.x.value 
-//     //                                    - 2 * self.model.cartSize 
-//     //                                    - 40
-//     //     } 

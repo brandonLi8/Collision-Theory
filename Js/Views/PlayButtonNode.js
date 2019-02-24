@@ -33,7 +33,7 @@ export default class PlayButtonNode {
         borderRadius: "50%",
         height: "14%",
         position: "absolute",
-        left: "50%",
+        left: "40%",
         transform: "translate( -50%, 0 )"
       },
       src: "./assets/playButton.png",
@@ -47,7 +47,7 @@ export default class PlayButtonNode {
     let pauseButton = new ImageButton({
       style: {
         position: "absolute",
-        left: "50%",
+        left: "40%",
         transform: "translate( -50%, 0 )",
         bottom: "5%",
         boxShadow:  "0 0 3px 0 rgb( 40, 40, 40 )",

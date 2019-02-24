@@ -121,6 +121,9 @@ export default class ControlPanel {
         let value = restitution.value;
         value = value.substring( 0, value.length - 2 )
         model.restitution.value = Number.parseFloat( value ) / 100;
+        model.newRun = true;
+        model.alreadyCollided.value = false;
+
       }
     });
     // add a event listener so the model can reset the restitution slider
