@@ -90,6 +90,8 @@ export default class StateButtons {
 
       listener: function(){
         model.isPlaying.value = false;
+        model.alreadyCollided.value = false;
+        model.newRun = true;
         model.cart1.resetLocation()
         model.cart2.resetLocation();
       },

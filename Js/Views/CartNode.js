@@ -47,6 +47,7 @@ export default class CartNode {
 
       drag: function(){
         model.isPlaying.value = false;
+        model.newRun = true;
         let top = cartNode.DOMobject.style.top;
         top = top.substring( 0, top.length - 2 )
         // make sure that it doesn't go below the street 
