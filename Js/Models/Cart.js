@@ -9,7 +9,6 @@
  * Model for a cart
  * 
  */
-
 // modules 
 import ObservableVariable from "../../../Observe/ObservableVariable.js";
 
