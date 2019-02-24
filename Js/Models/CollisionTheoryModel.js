@@ -73,12 +73,19 @@ export default class Model {
  
     // @public {ObservableVariable} is the simulation playing
     this.isPlaying = new ObservableVariable( false );
+    this.alreadyCollided = new ObservableVariable( false ); 
+    // have the carts collided yet
+    this.newRun = true; // on new runs
 
     // @public {ObservableVariable} is the velocity vector turned on
     this.velocityVectorOn = new ObservableVariable( false );
 
     // @public {ObservableVariable} is the momentum vector turned on
     this.momentumVectorOn = new ObservableVariable( false );
+
+    // @public {object} the reset data
+    this.reset = {
+    }
 
   } 
   /**
@@ -87,6 +94,18 @@ export default class Model {
    * move the carts when the play is pressed
    */
   run(){
+    if ( this.newRun ){// new run
+      this.reset = {}
+      this.reset[ "mass1" ] = this.cart1.mass.value
+      this.reset[ "mass2" ] = this.cart2.mass.value
+      this.reset[ "velocity1" ] = this.cart1.velocity.value
+      this.reset[ "velocity2" ] = this.cart2.velocity.value
+      this.reset[ "restitution" ] = this.restitution.value
+      this.reset[ "cart1x" ] = this.cart1.x.value
+      this.reset[ "cart2x" ] = this.cart2.x.value
+      this.newRun = false;
+    }
+
     // alias self
     var self = this;
 
@@ -96,16 +115,20 @@ export default class Model {
 
     this.calculateVelocties();
 
+    var collidable = true; // are the in front of each other
+    // or in other words can the collide
+    if ( self.cart1.x.value >= self.cart2.x.value  )
+      collidable = false
 
-    var collided = false;
 
     function moveCart( timestamp ) {
       self.cart1.x.value += self.cart1.changeX;
       self.cart2.x.value += self.cart2.changeX;
 
-      if ( self.cart1.x.value >= self.cart2.x.value &&!collided ){
+      if ( self.cart1.x.value >= self.cart2.x.value 
+           && collidable
+           && !self.alreadyCollided.value ){
         collideCarts();
-        collided = true; // essential on pause
       }
       if ( self.isPlaying.value === true )
         setTimeout( moveCart , 1 );
@@ -200,6 +223,7 @@ export default class Model {
       self.cart1.velocity.value = newVelocity1;
       // calculate new change x
       self.calculateVelocties();
+      self.alreadyCollided.value = true;
     }
 
     
@@ -209,15 +233,18 @@ export default class Model {
    * simulation "Reset Run" button is pressed. 
    * @public
    */
-  // resetRun(){
-  //   // reset the locations
-  //   this.cart1.resetLocation();
-  //   this.cart2.resetLocation();
-  //   // new run 
-  //   this.newRun = true;
-  //   // pause
-  //   this.isPlaying.value = false;
-  // }
+  resetRun(){  
+    // pause
+    this.isPlaying.value = false;
+    this.alreadyCollided.value = false;
+    this.cart1.mass.value = this.reset[ "mass1" ]
+    this.cart2.mass.value = this.reset[ "mass2" ]
+    this.cart1.velocity.value = this.reset[ "velocity1" ]
+    this.cart2.velocity.value = this.reset[ "velocity2" ]
+    this.restitution.value = this.reset[ "restitution" ];
+    this.cart1.x.value = this.reset[ "cart1x" ];
+    this.cart2.x.value = this.reset[ "cart2x" ];
+  }
 
   /**
    * Restores everything. This method is called when the 

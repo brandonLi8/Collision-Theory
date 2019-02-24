@@ -25,5 +25,6 @@ var sim = {
   author: "Brandon Li",
 };
 
+
 // create the view
 var CollisionTheoryView = new View( sim, collisionTheoryModel );

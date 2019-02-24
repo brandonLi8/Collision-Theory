@@ -109,14 +109,14 @@ export default class Cart {
   }
 
 
-   /**
+  /**
    * Restores the initial location. This method is called when the 
    * simulation "Reset Run" button is pressed. 
    * @public
    */
-  // resetLocation() {
-  //   this.x.value = this.originalOptions.x;
-  // }
+  resetLocation() {
+    this.x.value = this.originalOptions.x;
+  }
 
 }
 
