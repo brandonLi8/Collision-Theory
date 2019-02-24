@@ -15,6 +15,8 @@
 "use strict";
 
 import Node from "../../../Screen/Node.js";
+import WeightNode from "./WeightNode.js"
+
 
 export default class CartNode {
   /**
@@ -22,11 +24,13 @@ export default class CartNode {
    * @param {cart} cart - the model
    * @param {model} model for the sim
    * @constructor
-   * @return {node} - the cart node
+   * @return {object} - the cart node and the weight node
    */
   constructor( cart, model ){
     // the initial position is the percentage of the bottom - height
     let cartY = "calc(" + cart.y + "% - " + cart.height + "px" + ")"
+
+    var weight = new WeightNode( cart, model )
 
     let cartNode = new Node({
       // image type
@@ -55,6 +59,21 @@ export default class CartNode {
         }
         if ( model.alreadyCollided.value === true ) model.newRun = true
         model.alreadyCollided.value = false;
+        
+        let weightHeight = weight.DOMobject.style.height
+        weightHeight = weightHeight.substring( 0, weightHeight.length - 2 )
+        weightHeight = Number.parseFloat( weightHeight )
+        weight.setStyle({
+          top: top - weightHeight + "px"
+        })
+
+        let left = cartNode.DOMobject.style.left;
+        left = left.substring( 0, left.length - 2 );
+        left = Number.parseFloat( left );
+        if ( cart.number === 1 ) left += cart.width
+
+        cart.x.value = left;
+
       },
 
       dragClose: function(){
@@ -99,6 +118,24 @@ export default class CartNode {
         });
         cartNode.setStyle({
           top: cartY,
+        });
+        let weightHeight = weight.DOMobject.style.height
+        weightHeight = weightHeight.substring( 0, weightHeight.length - 2 )
+        weightHeight = Number.parseFloat( weightHeight )
+
+        let weightY = "calc(" + cart.y + "% - " 
+          + ( cart.height + weightHeight - 2 )  + "px" + ")"
+        weight.newAnimation({
+          animation: [
+            {  top: weight.DOMobject.style.top },
+            {  top: weightY },
+          ],
+          timing: {
+            duration: 500
+          }
+        })
+        weight.setStyle({
+          top: weightY
         })
       },
     });
@@ -120,8 +157,11 @@ export default class CartNode {
     // set it to the model location
     cart.x.value = cart.x.value;
     
-  
-    return cartNode;
+    
+    return {
+      cart: cartNode,
+      weight: weight
+    }
   }
 
 }
