@@ -26,7 +26,7 @@ import PlayButtonNode from "./PlayButtonNode.js"
 import StateButtons from "./stateButtons.js"
 
 import TextPushButton from "../../../Buttons/TextPushButton.js";
-
+import Vector from "../../../Vector/Vector.js"
 // modules
 
 export default class View {
@@ -104,6 +104,15 @@ export default class View {
         self.simNode.removeChild( resetRun )
       }
     } );
+
+    var velocityVector1 = new Vector({
+      length: 100,
+      height: 50,
+      orientation: 0
+    }).node;
+
+    this.simNode.addChild( velocityVector1 )
+
 
   }
 
