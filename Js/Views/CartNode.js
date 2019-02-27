@@ -16,6 +16,7 @@
 
 import Node from "../../../Screen/Node.js";
 import WeightNode from "./WeightNode.js"
+import VectorNode from "./VectorNode.js"
 
 
 export default class CartNode {
@@ -31,6 +32,9 @@ export default class CartNode {
     let cartY = "calc(" + cart.y + "% - " + cart.height + "px" + ")"
 
     var weight = new WeightNode( cart, model )
+    var velocity = new VectorNode( cart, model, "velocity" );
+    var momentum = new  VectorNode( cart, model, "momentum" );
+  
 
     let cartNode = new Node({
       // image type
@@ -66,6 +70,17 @@ export default class CartNode {
         weightHeight = Number.parseFloat( weightHeight )
         weight.setStyle({
           top: top - weightHeight + "px"
+        })
+
+        let velocityY = "calc(" + top + "px + " 
+          + ( cart.height/2 - 11 )  + "px" + ")";
+        velocity.vector.node.setStyle({
+          top: velocityY
+        })
+        let momentumY = "calc(" + top + "px + " 
+          + ( cart.height/2 - 15 )  + "px" + ")";
+        momentum.vector.node.setStyle({
+          top: velocityY
         })
 
         let left = cartNode.DOMobject.style.left;
@@ -138,6 +153,34 @@ export default class CartNode {
         weight.setStyle({
           top: weightY
         })
+        let velocityY = "calc(" + cart.y + "% - " 
+          + ( cart.height/2 + 11 )  + "px" + ")"
+        let momentumY = "calc(" + cart.y + "% - " 
+          + ( cart.height/2 + 15 )  + "px" + ")"
+        velocity.vector.node.newAnimation({
+          animation: [
+            {  top: velocity.vector.node.DOMobject.style.top },
+            {  top: velocityY },
+          ],
+          timing: {
+            duration: 500
+          }
+        })
+        velocity.vector.node.setStyle({
+          top: velocityY
+        })
+        momentum.vector.node.newAnimation({
+          animation: [
+            {  top: momentum.vector.node.DOMobject.style.top },
+            {  top: momentumY },
+          ],
+          timing: {
+            duration: 500
+          }
+        })
+        momentum.vector.node.setStyle({
+          top: velocityY
+        })
       },
     });
 
@@ -161,7 +204,9 @@ export default class CartNode {
     
     return {
       cart: cartNode,
-      weight: weight
+      weight: weight,
+      momentum: momentum,
+      velocity: velocity
     }
   }
 
