@@ -182,7 +182,10 @@ export default class ControlPanel {
         left: "10%",
         top: "65%",
       },
-      label: "Velocity Vectors"
+      label: "Velocity Vectors",
+      listener: function(){
+        model.velocityVectorOn.value = !model.velocityVectorOn.value
+      }
     });
 
     var momentumVector = new CheckButton({
