@@ -24,11 +24,12 @@ import CartControlPanel from "./CartControlPanel.js"
 import ControlPanel from "./ControlPanel.js"
 import PlayButtonNode from "./PlayButtonNode.js"
 import StateButtons from "./stateButtons.js"
+import VectorNode from "./VectorNode.js"
 
 import TextPushButton from "../../../Buttons/TextPushButton.js";
-import Vector from "../../../Vector/Vector.js"
 // modules
 
+import Vector from "../../../Vector/Vector.js";
 export default class View {
   /**
    * Set up the basic structure
@@ -75,7 +76,11 @@ export default class View {
     this.stateButtons = new StateButtons( model );
     var resetRun = this.stateButtons[ 0 ]
     var resetCart = this.stateButtons[ 1 ]
-  
+    
+    this.momentumVector1 = new VectorNode( model.cart1, model, "momentum" );
+    this.momentumVector2 = new VectorNode( model.cart2, model, "momentum" );
+    this.velocityVector1 = new VectorNode( model.cart1, model, "velocity" );
+    this.velocityVector2 = new VectorNode( model.cart2, model, "velocity" );
 
     // in this rendering order
     this.simNode.appendChildren([
@@ -91,6 +96,11 @@ export default class View {
       this.pauseButton.node,
       resetRun,
       resetCart,
+      this.momentumVector1.vector.node,
+      this.momentumVector2.vector.node,
+      this.velocityVector1.vector.node,
+      this.velocityVector2.vector.node
+
 
     ])
 
@@ -104,16 +114,7 @@ export default class View {
         self.simNode.removeChild( resetRun )
       }
     } );
-
-    var velocityVector1 = new Vector({
-      length: 100,
-      height: 50,
-      orientation: 0
-    }).node;
-
-    this.simNode.addChild( velocityVector1 )
-
-
+  
   }
 
 }
