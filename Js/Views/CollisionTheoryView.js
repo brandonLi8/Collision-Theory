@@ -76,12 +76,6 @@ export default class View {
     this.stateButtons = new StateButtons( model );
     var resetRun = this.stateButtons[ 0 ]
     var resetCart = this.stateButtons[ 1 ]
-    
-    this.momentumVector1 = new VectorNode( model.cart1, model, "momentum" );
-    this.momentumVector2 = new VectorNode( model.cart2, model, "momentum" );
-    this.velocityVector1 = new VectorNode( model.cart1, model, "velocity" );
-    this.velocityVector2 = new VectorNode( model.cart2, model, "velocity" );
-
     // in this rendering order
     this.simNode.appendChildren([
       this.background,
@@ -92,16 +86,14 @@ export default class View {
       this.cart2.weight,
       this.cart1.cart,
       this.cart2.cart,
+      this.cart1.momentum.vector.node,
+      this.cart2.momentum.vector.node,
+      this.cart1.velocity.vector.node,
+      this.cart2.velocity.vector.node,
       this.playButton.node,
       this.pauseButton.node,
       resetRun,
       resetCart,
-      this.momentumVector1.vector.node,
-      this.momentumVector2.vector.node,
-      this.velocityVector1.vector.node,
-      this.velocityVector2.vector.node
-
-
     ])
 
     // remove the reset run button
