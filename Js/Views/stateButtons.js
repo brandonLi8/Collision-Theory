@@ -67,7 +67,7 @@ export default class StateButtons {
 
 
     var resetCart = new TextPushButton({
-      text: "Reset Carts", 
+      text: "Return Carts", 
       style: { 
         borderRadius: "7px",
         width: "10%",
@@ -76,7 +76,7 @@ export default class StateButtons {
         boxShadow: "0 0 1px 0 rgb( 40, 40, 40 )",
         position: "absolute",
         color: "#FFF",
-        left: "56%",
+        left: "80%",
         bottom: "8%",
         minWidth: "120px"
       },

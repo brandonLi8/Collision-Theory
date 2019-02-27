@@ -33,7 +33,7 @@ export default class PlayButtonNode {
         borderRadius: "50%",
         height: "14%",
         position: "absolute",
-        left: "40%",
+        left: "50%",
         transform: "translate( -50%, 0 )"
       },
       src: "./assets/playButton.png",
