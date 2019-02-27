@@ -11,7 +11,8 @@ Collision Theory
 
 <a href="https://brandonli8.github.io/Learning_App/CollisionTheory/" target="_blank">Visit the simulation</a>.
 
-![collisiontheory](https://user-images.githubusercontent.com/42391580/53526115-9e81dd00-3aa0-11e9-9e73-1953c2a07d80.png)
+![collisiontheory](https://user-images.githubusercontent.com/42391580/53526269-f4568500-3aa0-11e9-943a-7eec53d1da2c.png)
+
 
 ### Quick Start
 (1) Clone the simulation and its dependencies in a desirable directory:
