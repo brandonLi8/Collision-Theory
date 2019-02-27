@@ -9,12 +9,9 @@ Collision Theory
 
 ## Try it!
 
-**note: this simulation is still under development and hasn't been published yet**
-
-
 <a href="https://brandonli8.github.io/Learning_App/CollisionTheory/" target="_blank">Visit the simulation</a>.
 
-![collisiontheory](https://user-images.githubusercontent.com/42391580/53307555-ffb67000-3856-11e9-8a60-03490e93f3ed.png)
+![collisiontheory](https://user-images.githubusercontent.com/42391580/53526115-9e81dd00-3aa0-11e9-9e73-1953c2a07d80.png)
 
 ### Quick Start
 (1) Clone the simulation and its dependencies in a desirable directory:
