@@ -31,10 +31,12 @@ export default class VectorNode {
     var color;
     if ( type === "momentum" ){
       color = "#067F26";
-      vectorHeight = 40;
+      vectorHeight = 30;
+
     }
      if ( type === "velocity" ){
       color = "#FFC600";
+      
     }
 
 
@@ -123,12 +125,12 @@ export default class VectorNode {
     model[ type + "VectorOn" ].setListener( function( newValue ) {
       if ( newValue === true ){
         self.vector.node.setStyle({
-          opacity: "1"
+          display: "flex"
         })
       }
       else {
         self.vector.node.setStyle({
-          opacity: "0"
+          display: "none"
         })
       }
     })
