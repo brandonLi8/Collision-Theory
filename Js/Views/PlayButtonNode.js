@@ -47,7 +47,7 @@ export default class PlayButtonNode {
     let pauseButton = new ImageButton({
       style: {
         position: "absolute",
-        left: "40%",
+        left: "50%",
         transform: "translate( -50%, 0 )",
         bottom: "5%",
         boxShadow:  "0 0 3px 0 rgb( 40, 40, 40 )",
