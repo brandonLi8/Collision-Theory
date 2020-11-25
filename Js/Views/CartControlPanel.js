@@ -1,8 +1,8 @@
 /**
- * Learning App
+ * Coveral
  * CartControlPanel.js
  *
- * @author Brandon Li <brandon.li820@icloud.com> 
+ * @author Brandon Li <brandon.li820@icloud.com>
  * Created on 2/22/19
  * Copyright © 2019 Brandon Li. All rights reserved.
  *
@@ -32,11 +32,11 @@ export default class CartControlPanel {
     if ( cart.number === 1 )
       position = "2%";
     else {
-      if ( window.innerWidth < 1200 ) 
+      if ( window.innerWidth < 1200 )
         position = "calc( 4% + 200px )"
-      else if ( window.innerWidth < 1500 ) 
+      else if ( window.innerWidth < 1500 )
         position = "calc( 4% + 250px )"
-      else 
+      else
         position = "calc( 4% + 300px )"
     }
 
@@ -63,9 +63,9 @@ export default class CartControlPanel {
     })
     // the label to the panel
     var label = new TextPushButton({
-      text: "Cart " + cart.number, 
+      text: "Cart " + cart.number,
       // @optional the styling ( overriding doesnt delete all of it )
-      style: { 
+      style: {
         border: "none",
         display: "flex",
         background: "none",
@@ -76,7 +76,7 @@ export default class CartControlPanel {
         background: "none",
         cursor: "default"
       },
-      textStyle: { 
+      textStyle: {
         fontSize: "19px",
         margin: "auto",
         textAlign: "center",
@@ -209,7 +209,7 @@ export default class CartControlPanel {
         model.isPlaying.value = false;
         let value = velocitySlider.value;
         // get rid or the unit
-        value = value.substring( 0, value.length - model.velocityUnit.length ) 
+        value = value.substring( 0, value.length - model.velocityUnit.length )
         if ( cart.number === 2 ) value *= -1;
         // for the right car, the velocity is negative
         cart.velocity.value = Number.parseFloat( value );
@@ -220,13 +220,13 @@ export default class CartControlPanel {
 
     // now listen to velocity changes and mirror them in the slider
     cart.velocity.setListener( function( newValue ){
-      newValue = Math.round( newValue * Math.pow( 10, 2 ) ) 
+      newValue = Math.round( newValue * Math.pow( 10, 2 ) )
                  / Math.pow( 10, 2 ) // round the new value
       velocitySlider.setValue( Math.abs( newValue ) )
     } );
     // do the same with mass changed
     cart.mass.setListener( function( newValue ){
-      newValue = Math.round( newValue * Math.pow( 10, 2 ) ) 
+      newValue = Math.round( newValue * Math.pow( 10, 2 ) )
                  / Math.pow( 10, 2 )
       massSlider.setValue( newValue )
     } );

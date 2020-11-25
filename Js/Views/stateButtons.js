@@ -1,8 +1,8 @@
 /**
- * Learning App
+ * Coveral
  * stateButtons.js
  *
- * @author Brandon Li <brandon.li820@icloud.com> 
+ * @author Brandon Li <brandon.li820@icloud.com>
  * Created on 2/23/19
  * Copyright © 2019 Brandon Li. All rights reserved.
  *
@@ -25,8 +25,8 @@ export default class StateButtons {
   constructor( model ){
      // add the reset all button
     var resetRun = new TextPushButton({
-      text: "Reset Run", 
-      style: { 
+      text: "Reset Run",
+      style: {
         borderRadius: "7px",
         width: "120px",
         height: "7%",
@@ -38,7 +38,7 @@ export default class StateButtons {
         color: "#FFF"
       },
 
-      hoverStyle: { 
+      hoverStyle: {
         background: "#ab123a"
       },
 
@@ -67,8 +67,8 @@ export default class StateButtons {
 
 
     var resetCart = new TextPushButton({
-      text: "Return Carts", 
-      style: { 
+      text: "Return Carts",
+      style: {
         borderRadius: "7px",
         width: "10%",
         height: "6%",
@@ -84,7 +84,7 @@ export default class StateButtons {
         fontSize: "1em"
       },
 
-      hoverStyle: { 
+      hoverStyle: {
         background: "#ab123a"
       },
 

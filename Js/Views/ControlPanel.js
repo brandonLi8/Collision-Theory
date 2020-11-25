@@ -1,8 +1,8 @@
 /**
- * Learning App
+ * Coveral
  * ControlPanel.js
  *
- * @author Brandon Li <brandon.li820@icloud.com> 
+ * @author Brandon Li <brandon.li820@icloud.com>
  * Created on 2/23/19
  * Copyright © 2019 Brandon Li. All rights reserved.
  *
@@ -44,7 +44,7 @@ export default class ControlPanel {
       top: "20px",
       border: "3px solid orange"
     }
-    
+
     // the control panel
     var controlPanel = new Node({
       style: style
@@ -60,7 +60,7 @@ export default class ControlPanel {
         fontFamily: "courier",
         borderRadius: "8px", // slider background
         width: "100%",
-        height: "40%", 
+        height: "40%",
         background: "none",
         border: "none",
         boxShadow: "none",
@@ -96,7 +96,7 @@ export default class ControlPanel {
         position: "absolute",
         right: "65px",
         top: "34%",
-        
+
       },
       leftText: "Inelastic", // labels the sides
       rightText: "Elastic",
@@ -134,8 +134,8 @@ export default class ControlPanel {
 
      // add the reset all button
     var resetAll = new TextPushButton({
-      text: "Reset All", 
-      style: { 
+      text: "Reset All",
+      style: {
         borderRadius: "7px",
         width: "120px",
         height: "14%",
@@ -147,7 +147,7 @@ export default class ControlPanel {
         color: "#FFF"
       },
 
-      hoverStyle: { 
+      hoverStyle: {
         background: "#ab123a"
       },
 

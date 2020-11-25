@@ -1,14 +1,14 @@
 /**
  *
- * Learning App
+ * Coveral
  * CollisionTheoryModel.js
  *
- * @author Brandon Li <brandon.li820@icloud.com> 
+ * @author Brandon Li <brandon.li820@icloud.com>
  * Created on 2/17/19
  * Copyright © 2019 Brandon Li. All rights reserved.
  *
  * Model for Collision Theory
- * 
+ *
  */
 "use strict";
 
@@ -18,7 +18,7 @@ import ObservableVariable from "../../../Observe/ObservableVariable.js";
 
 export default class Model {
   /**
-   * @public 
+   * @public
    * @constructor
    * Construct the Simulation
    */
@@ -49,8 +49,8 @@ export default class Model {
     // @private {number} the percentage from the bottom
     this.cartPercentage = 31
 
-    // @public {Cart} the first cart 
-    this.cart1 = new Cart({ 
+    // @public {Cart} the first cart
+    this.cart1 = new Cart({
       y: 100 - this.cartPercentage, // inpercentage
       x: padding + this.cartWidth, // since its the tip
       size: [ this.cartWidth, this.cartHeight ],
@@ -59,8 +59,8 @@ export default class Model {
       color: "blue",
       number: 1
     });
-    
-    // @public {Cart} the second car cart 
+
+    // @public {Cart} the second car cart
     this.cart2 = new Cart({
       y: 100 - this.cartPercentage, // in percentage
       x: window.innerWidth - padding - this.cartWidth, // the left of the car
@@ -70,10 +70,10 @@ export default class Model {
       color: "red",
       number: 2
     });
- 
+
     // @public {ObservableVariable} is the simulation playing
     this.isPlaying = new ObservableVariable( false );
-    this.alreadyCollided = new ObservableVariable( false ); 
+    this.alreadyCollided = new ObservableVariable( false );
     // have the carts collided yet
     this.newRun = true; // on new runs
 
@@ -87,9 +87,9 @@ export default class Model {
     this.reset = {
     }
 
-  } 
+  }
   /**
-   * @public 
+   * @public
    * this is the logic to the sim
    * move the carts when the play is pressed
    */
@@ -125,7 +125,7 @@ export default class Model {
       self.cart1.x.value += self.cart1.changeX;
       self.cart2.x.value += self.cart2.changeX;
 
-      if ( self.cart1.x.value >= self.cart2.x.value 
+      if ( self.cart1.x.value >= self.cart2.x.value
            && collidable
            && !self.alreadyCollided.value ){
         collideCarts();
@@ -146,9 +146,9 @@ export default class Model {
      * as our first equation:
      * 1: m1v1 + m2v2 = m1v1(final) + m2v2(final)
      * The second equation comes from the Coef. of restitution:
-     * 2: C = ( v2(final) - v1(final) ) 
+     * 2: C = ( v2(final) - v1(final) )
      *        / ( v1 - v2)
-     *        
+     *
      */
     function collideCarts(){
       // constants
@@ -167,7 +167,7 @@ export default class Model {
        * as our first equation:
        * 1: m1v1 + m2v2 = m1v1(final) + m2v2(final)
        * The second equation comes from the Coef. of restitution:
-       * 2: C = ( v2(final) - v1(final) ) 
+       * 2: C = ( v2(final) - v1(final) )
        *        / ( v1 - v2)
        *
        * In the first equation solve for v1(final)
@@ -177,15 +177,15 @@ export default class Model {
        *                  / m1
        * ( initial momentum is m1v1 + m2v2 )
        *
-       * Using the restitution equation, we solve for v2(final) 
-       * 
-       *  C = ( v2(final) - v1(final) ) 
+       * Using the restitution equation, we solve for v2(final)
+       *
+       *  C = ( v2(final) - v1(final) )
        *      / ( v1 - v2)
-       *  C(v1 - v2) = ( v2(final) - v1(final) ) 
+       *  C(v1 - v2) = ( v2(final) - v1(final) )
        *
        * v2Final = C(v1 - v2) + v1(final)
        *
-       * since difference in veolcities = v2 - v1, 
+       * since difference in veolcities = v2 - v1,
        * v1-v2 = -1*differenceInVelocities
        *
        * 2: v2Final = c( -differenceInVelocities ) + v1(final)
@@ -200,10 +200,10 @@ export default class Model {
        * v2Final * m1 = C(-differenceInVelocities)m1 + initalMomentum - m2v2(final)
        *
        * add m2v2(final)
-       * v2Final * m1 + m2v2(final) = C(-differenceInVelocities)m1 + initalMomentum 
+       * v2Final * m1 + m2v2(final) = C(-differenceInVelocities)m1 + initalMomentum
        *
        * factor
-       * v2Final( m1 + m2 ) = C(-differenceInVelocities)m1 + initalMomentum 
+       * v2Final( m1 + m2 ) = C(-differenceInVelocities)m1 + initalMomentum
        * ...
        * v2Final =  ( initalMomentum + C(-differenceInVelocities)* m1 )
        *            / ( m1 + m2 )
@@ -213,10 +213,10 @@ export default class Model {
        *            / ( m1 + m2 )
        */
 
-      let newVelocity1 = ( initialMomentum + mass2 * restitution * differenceInVelocity ) 
+      let newVelocity1 = ( initialMomentum + mass2 * restitution * differenceInVelocity )
                         / (mass1 + mass2)
 
-      let newVelocity2 = ( initialMomentum + mass1 * restitution * -1 * differenceInVelocity ) 
+      let newVelocity2 = ( initialMomentum + mass1 * restitution * -1 * differenceInVelocity )
                          / (mass1 + mass2)
       // set new velocities
       self.cart2.velocity.value = newVelocity2;
@@ -226,14 +226,14 @@ export default class Model {
       self.alreadyCollided.value = true;
     }
 
-    
+
   }
   /**
-   * Restores the initial locations of the cart. This method is called when the 
-   * simulation "Reset Run" button is pressed. 
+   * Restores the initial locations of the cart. This method is called when the
+   * simulation "Reset Run" button is pressed.
    * @public
    */
-  resetRun(){  
+  resetRun(){
     // pause
     this.isPlaying.value = false;
     this.alreadyCollided.value = false;
@@ -247,8 +247,8 @@ export default class Model {
   }
 
   /**
-   * Restores everything. This method is called when the 
-   * simulation "Reset All" button is pressed. 
+   * Restores everything. This method is called when the
+   * simulation "Reset All" button is pressed.
    * @public
    */
   resetAll(){
@@ -269,12 +269,12 @@ export default class Model {
     const millisecondsPerSecond = 1000;
     // go from meters per second to pixels per millisecond
     // m/s * ( 80px / m ) * ( s / 1000 ms ) dimensional analysis
-    this.cart1.changeX = this.cart1.velocity.value 
-                        * pixelsPerMeter 
+    this.cart1.changeX = this.cart1.velocity.value
+                        * pixelsPerMeter
                         / millisecondsPerSecond;
     // since its the other direction, multiple by -1
-    this.cart2.changeX = this.cart2.velocity.value 
-                        * pixelsPerMeter 
+    this.cart2.changeX = this.cart2.velocity.value
+                        * pixelsPerMeter
                         / millisecondsPerSecond;
   }
 

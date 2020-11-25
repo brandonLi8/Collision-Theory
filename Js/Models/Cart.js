@@ -1,22 +1,22 @@
 /**
- * Learning App
+ * Coveral
  * Cart.js
  *
- * @author Brandon Li <brandon.li820@icloud.com> 
+ * @author Brandon Li <brandon.li820@icloud.com>
  * Created on 2/17/19
  * Copyright © 2019 Brandon Li. All rights reserved.
  *
  * Model for a cart
- * 
+ *
  */
-// modules 
+// modules
 import ObservableVariable from "../../../Observe/ObservableVariable.js";
 
 "use strict";
 
 export default class Cart {
   /**
-   * @public 
+   * @public
    *
    * Construct the Simulation
    * options = {
@@ -32,7 +32,7 @@ export default class Cart {
    */
   constructor( options ) {
 
-    // @public {number} - the style top of the cart ( y location ) 
+    // @public {number} - the style top of the cart ( y location )
     // This **must** be in percent for scaling
     this.y = options.y;
 
@@ -73,15 +73,15 @@ export default class Cart {
 
   }
   /**
-   * Restores the initial state of the Cart. This method is called when the 
-   * simulation "Reset All" button is pressed. 
+   * Restores the initial state of the Cart. This method is called when the
+   * simulation "Reset All" button is pressed.
    * @public
    */
   reset() {
     // y is contant and doesn't need to be reset
 
     this.x.value = this.originalOptions.x;
-   
+
     // direction is contant and doesn't need to be reset
 
     this.velocity.value = this.originalOptions.velocity;
@@ -90,7 +90,7 @@ export default class Cart {
 
     // color and size are constant
   }
- 
+
   /**
    * This caclculates the change in x based on the velocity
    * @public
@@ -101,16 +101,16 @@ export default class Cart {
     // go from meters per second ( velocity )to pixels per millisecond
 
     // m/s * ( 80px / m ) * ( s / 1000 ms ) dimensional analysis
-    this.changeX = this.velocity.value 
-                   * pixelsPerMeter 
+    this.changeX = this.velocity.value
+                   * pixelsPerMeter
                    / millisecondsPerSecond;
 
   }
 
 
   /**
-   * Restores the initial location. This method is called when the 
-   * simulation "Reset Run" button is pressed. 
+   * Restores the initial location. This method is called when the
+   * simulation "Reset Run" button is pressed.
    * @public
    */
   resetLocation() {

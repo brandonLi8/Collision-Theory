@@ -1,8 +1,8 @@
 /**
- * Learning App
+ * Coveral
  * CollisionTheory.js
  *
- * @author Brandon Li <brandon.li820@icloud.com> 
+ * @author Brandon Li <brandon.li820@icloud.com>
  * Created on 1/31/19
  * Copyright © 2019 Brandon Li. All rights reserved.
  *
@@ -17,7 +17,7 @@ import Model from "./Models/CollisionTheoryModel.js";
 import View from "./Views/CollisionTheoryView.js";
 
 // create the model
-var collisionTheoryModel = new Model(); 
+var collisionTheoryModel = new Model();
 
 var sim = {
   home: "../sims",
